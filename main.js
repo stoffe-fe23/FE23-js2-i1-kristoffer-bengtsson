@@ -8,13 +8,18 @@ import Mage from "./modules/FighterTypes/Mage.js";
 
 
 // TEST! Create a couple of players and start a game. 
-const outBox = document.querySelector("#game");
-const player1 = new Player("Testare", new Mage());
-const player2 = new Player("John Doe", new Spellblade());
-const game = new Game(player1, player2, outBox);
+try {
+    const outBox = document.querySelector("#game");
+    const player1 = new Player("Testare", new Mage());
+    const player2 = new Player("John Doe", new Spellblade());
+    const game = new Game(player1, player2, outBox);
 
-gameInterface.initialize(document.querySelector("#game"));
-game.doGameTurn();
+    gameInterface.initialize(document.querySelector("#game"));
+    game.doGameTurn();
+}
+catch (error) {
+    gameInterface.showError(error);
+}
 
 
 
