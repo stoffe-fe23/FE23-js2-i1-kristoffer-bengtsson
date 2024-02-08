@@ -1,5 +1,5 @@
 
-import { createHTMLElement, getIsValidObject } from './utilities.js';
+import { createHTMLElement } from './utilities.js';
 
 class GameInterface {
     #parentElement;
@@ -11,6 +11,9 @@ class GameInterface {
 
     }
 
+    ///////////////////////////////////////////////////////////////////////////////
+    // Build the game interface inside the specified element: 
+    // one box for each player and boxes for messages and errors
     initialize(parentElement) {
         this.#parentElement = parentElement;
         parentElement.innerHTML = '';
@@ -22,18 +25,30 @@ class GameInterface {
         createHTMLElement('div', '', this.#playerElements, 'game-player', { id: `player-2` });
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Get the HTML element box for the player with the specified ID
     getPlayerElement(playerIdx) {
         return this.#playerElements.querySelector(`#player-${playerIdx}`);
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Show a message to the player
     showMessage(messageText) {
         const messageBox = createHTMLElement('div', messageText, this.#messagesElement, 'game-message', null, true);
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Show an error to the player
     showError(errorText) {
         const errorBox = createHTMLElement('div', errorText, this.#errorsElement, 'game-error', null, true);
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Show some kind of screen when the game is over, declaring the winner. 
     showGameOverScreen(winnerName) {
         const gameoverBox = createHTMLElement('dialog', '', document.body, 'game-over', { id: "gameover" });
         createHTMLElement('h2', 'Game Over', gameoverBox, 'game-over-title', { id: "gameover-title" });
@@ -49,6 +64,8 @@ class GameInterface {
     }
 }
 
+
+// Create gameInterface global object for use elsewhere. 
 const gameInterface = new GameInterface();
 
 export { GameInterface, gameInterface };

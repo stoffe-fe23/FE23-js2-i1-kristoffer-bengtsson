@@ -1,6 +1,7 @@
 /*
     Class: FighterType
     Defines a class or type of fighter (i.e. Warrior, Mage etc)
+    Abstract, do not create objects of this class, use one of the subclasses instead. 
 */
 import AttackSkill from "./AttackSkill.js";
 

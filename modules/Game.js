@@ -24,6 +24,7 @@ export default class Game {
 
 
     ///////////////////////////////////////////////////////////////////////////////
+    // Update the game for a turn, passing control to the next player
     doGameTurn() {
         if (this.#currentPlayer === this.#playerTwo) {
             this.#gameRound++;
@@ -51,6 +52,9 @@ export default class Game {
         console.log(">>> NEXT PLAYER", this.#currentPlayer.name);
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Do... something when the game is over.
     doGameOver(winner) {
         this.#gameRound = 1;
         this.#currentPlayer = null;
@@ -61,16 +65,21 @@ export default class Game {
 
 
     ///////////////////////////////////////////////////////////////////////////////
+    // Get the player currently taking their turn
     get player() {
         return this.#currentPlayer;
     }
 
 
     ///////////////////////////////////////////////////////////////////////////////
+    // Get the player currently waiting for their turn
     get opponent() {
         return (this.#currentPlayer === this.#playerOne ? this.#playerTwo : this.#playerOne);
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Build/update the player info elements on the page
     #buildPlayerAvatar(player) {
         const outputElement = gameInterface.getPlayerElement(player.id);
 
@@ -81,7 +90,9 @@ export default class Game {
         this.#buildSkillButtons(player);
     }
 
+
     ///////////////////////////////////////////////////////////////////////////////
+    // Build the buttons with the player's available skills
     #buildSkillButtons(player) {
         const playerSkills = player.type.getAvailableSkills();
         const outputElement = gameInterface.getPlayerElement(player.id);
@@ -104,6 +115,8 @@ export default class Game {
         }
 
         buttonWrapper.innerHTML = '';
+
+        // Disable the buttons for the player not taking this turn
         buttonWrapper.disabled = (player == this.#currentPlayer ? false : true);
 
         // Create a button for each skill the player has
