@@ -33,6 +33,18 @@ export default class StatusEffect {
 
 
     ///////////////////////////////////////////////////////////////////////////////
+    // Return a display name of the type of status effect
+    get effectName() {
+        switch (this.effectType) {
+            case "heal": return "Health regen";
+            case "evade": return "Evading";
+            case "burn": return "Burning";
+            case "stun": return "Stunned";
+        }
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
     // Do round update for the status effect. Decrease remaining duration and
     // apply any effects that tick per round. 
     turnProc() {

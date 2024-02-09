@@ -22,7 +22,17 @@ export function setHTMLElement(elementType, elementText, parentElement, cssClass
 
     let targetElement = parentElement.querySelector(selector);
     if (getIsValidObject(targetElement, 0)) {
-        setElementContent(targetElement, elementText, allowHTML);
+        if ((elementType == 'ul') || (elementType == 'ol')) {
+            targetElement.innerHTML = '';
+            for (const listItemText of elementText) {
+                const newListItem = document.createElement("li");
+                setElementContent(newListItem, listItemText, allowHTML);
+                targetElement.appendChild(newListItem);
+            }
+        }
+        else {
+            setElementContent(targetElement, elementText, allowHTML);
+        }
     }
     else {
         targetElement = createHTMLElement(elementType, elementText, parentElement, cssClass, attributes, allowHTML);
@@ -54,6 +64,10 @@ export function createHTMLElement(elementType, elementText, parentElement = null
 
     // Set CSS class(es) on the element
     addClassToElement(newElement, elementClass);
+
+    if (elementType == 'ul') {
+        console.log("FOR FUCKS SAKE", elementText);
+    }
 
     // Set content of element, if specified
     if (getIsValidArray(elementText)) {

@@ -68,7 +68,7 @@ export default class Game {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Do... something when the game is over.
+    // TODO: Do... something fancy when the game is over?
     doGameOver(winner, loser) {
         this.#gameRound = 1;
         this.#currentPlayer = null;
@@ -101,6 +101,7 @@ export default class Game {
         setHTMLElement('div', `<span>Class:</span> ${player.type.name}`, outputElement, 'player-class', { id: `player-${player.id}-class` }, true);
         setHTMLElement('div', `<span>Health:</span> ${player.health} / ${player.maxHealth}`, outputElement, 'player-health', { id: `player-${player.id}-health` }, true);
         setHTMLElement('div', `<span>Defense:</span> ${player.armor}`, outputElement, 'player-defense', { id: `player-${player.id}-defense` }, true);
+        setHTMLElement('ul', player.getStatusEffects(), outputElement, 'player-effects', { id: `player-${player.id}-effects` });
         setHTMLElement('img', 'Player avatar', outputElement, 'avatar-icon', { src: `${player.type.icon}` })
 
         this.#buildSkillButtons(player);

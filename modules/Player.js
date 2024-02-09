@@ -162,6 +162,17 @@ export default class Player {
         return false;
     }
 
+    ///////////////////////////////////////////////////////////////////////////////
+    // Check if this player has a status effect of the specified type applied. 
+    getStatusEffects() {
+        const statusList = [];
+        for (const status of this.#statusEffects) {
+            console.log("STATUS", status);
+            statusList.push(`${status.effectName} [${parseInt(status.duration)}]`);
+        }
+        return statusList;
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////////
     // Update any status effects applied to the player
