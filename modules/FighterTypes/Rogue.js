@@ -1,16 +1,63 @@
+/*
+    Class: FighterType -> Rogue
+    Definition for a player of the rogue class.
+*/
 import FighterType from "../FighterType.js";
 import AttackSkill from "../AttackSkill.js";
 
 export default class Rogue extends FighterType {
 
     constructor() {
-        super('Rogue', 400, 14, "#0000ff", "./images/rogue.png");
+        // name, health, defense, color, icon
+        super('Rogue', 300, 12, "#0000ff", "./images/rogue.png");
 
         // Create unique skills for this fighter type
-        // name, damageMin, damageMax, charges = -1, target = 'enemy', statusEffect = 'none', hitChance = 10
-        this.addSkill(new AttackSkill("Stab", 5, 15, -1, "enemy", "none", 10, 'Stab.png'));
-        this.addSkill(new AttackSkill("Backstab", 30, 60, 2, "enemy", "none", 10, 'backstab.png'));
-        this.addSkill(new AttackSkill("Evasion", 30, 30, 3, "self", "none", 10, 'evasion.png'));
-        this.addSkill(new AttackSkill("Potion", 30, 35, 2, "self", "none", 10, 'potion.png'));
+        this.addSkill(new AttackSkill(
+            "Stab",
+            5,  // min damage
+            15, // max damage
+            15, // attack bonus
+            -1, // uses per match (-1 = unlimited)
+            "enemy", // target
+            "none", // status effect
+            'Stab.png',  // icon
+            'Stab opponent for 5-15 damage. (+15 attack)'
+        ));
+
+        this.addSkill(new AttackSkill(
+            "Backstab",
+            40, // min damage
+            70, // max damage
+            10, // attack bonus
+            3, // uses per match
+            "enemy", // target
+            "none", // status effect
+            'backstab.png', // icon
+            'Backstab opponent for 30-60 damage. (+10 attack)'
+        ));
+
+        this.addSkill(new AttackSkill(
+            "Evasion",
+            0, // min damage
+            0, // max damage
+            0, // attack bonus
+            3, // uses per match
+            "self", // target
+            "evade|2",  // status effect | duration
+            'evasion.png',  // icon
+            'Evade attacks for two rounds (+5 defense).'
+        ));
+
+        this.addSkill(new AttackSkill(
+            "Potion",
+            30, // min damage
+            35, // max damage
+            10, // attack bonus
+            2, // uses per match
+            "self", // target
+            "heal|2", // status effect | duration
+            'potion.png', // icon
+            'Heal yourself for 30-35 health and regen 10 health for 2 rounds.'
+        ));
     }
 }

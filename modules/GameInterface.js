@@ -22,6 +22,7 @@ class GameInterface {
         this.#errorsElement = createHTMLElement('div', '', this.#parentElement, 'game-errors', { id: "errors" });
 
         createHTMLElement('div', '', this.#playerElements, 'game-player', { id: `player-1` });
+        createHTMLElement('div', 'vs.', this.#playerElements, 'game-player-indicator', { id: `player-indicator` });
         createHTMLElement('div', '', this.#playerElements, 'game-player', { id: `player-2` });
     }
 
@@ -36,14 +37,14 @@ class GameInterface {
     ///////////////////////////////////////////////////////////////////////////////
     // Show a message to the player
     showMessage(messageText) {
-        const messageBox = createHTMLElement('div', messageText, this.#messagesElement, 'game-message', null, true);
+        this.#messagesElement.prepend(createHTMLElement('div', messageText, null, 'game-message', null, true));
     }
 
 
     ///////////////////////////////////////////////////////////////////////////////
     // Show an error to the player
     showError(errorText) {
-        const errorBox = createHTMLElement('div', errorText, this.#errorsElement, 'game-error', null, true);
+        this.#errorsElement.prepend(createHTMLElement('div', errorText, null, 'game-error', null, true));
     }
 
 

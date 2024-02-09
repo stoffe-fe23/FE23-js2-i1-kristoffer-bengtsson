@@ -30,36 +30,46 @@ export default class Game {
             this.#gameRound++;
         }
 
-        if (this.#playerOne.health <= 0) {
-            this.doGameOver(this.#playerTwo);
-            return;
-        }
-        if (this.#playerTwo.health <= 0) {
-            this.doGameOver(this.#playerOne);
-            return;
-        }
-
         // Pass turn to next player
         this.#currentPlayer = (this.#currentPlayer === this.#playerOne ? this.#playerTwo : this.#playerOne);
 
+        // Skip turn if player is stunned
+        if (this.#currentPlayer.hasStatusEffect("stun")) {
+            gameInterface.showMessage(`${this.#currentPlayer.name} is stunned, skipping turn!`);
+            this.#currentPlayer.updateStatusEffects();
+            this.#currentPlayer = (this.#currentPlayer === this.#playerOne ? this.#playerTwo : this.#playerOne);
+        }
 
         gameInterface.showMessage(`<strong>Round ${this.#gameRound}:</strong> ${this.#currentPlayer.name}'s turn!`);
+
+        // Proc status effects
+        this.#currentPlayer.updateStatusEffects();
 
         // Update player info
         this.#buildPlayerAvatar(this.#playerOne);
         this.#buildPlayerAvatar(this.#playerTwo);
 
-        console.log(">>> NEXT PLAYER", this.#currentPlayer.name);
+        // Game over? If anyone is KO'd
+        if (this.#playerOne.health <= 0) {
+            this.doGameOver(this.#playerTwo, this.#playerOne);
+            return;
+        }
+        if (this.#playerTwo.health <= 0) {
+            this.doGameOver(this.#playerOne, this.#playerTwo);
+            return;
+        }
+
+        console.log(">>> PLAYER TURN", this.#currentPlayer.name);
     }
 
 
     ///////////////////////////////////////////////////////////////////////////////
     // Do... something when the game is over.
-    doGameOver(winner) {
+    doGameOver(winner, loser) {
         this.#gameRound = 1;
         this.#currentPlayer = null;
 
-        gameInterface.showMessage(`<strong>GAME OVER:</strong> ${winner.name} wins!`);
+        gameInterface.showMessage(`<strong>GAME OVER:</strong> ${loser.name} is knocked out, ${winner.name} wins!`);
         gameInterface.showGameOverScreen(winner.name);
     }
 
@@ -124,9 +134,9 @@ export default class Game {
         for (const skill of playerSkills) {
             const buttonId = "player-" + player.id + "-" + skill.name.toLowerCase().replaceAll(' ', '-');
             // If the skill has limited uses, show remaining use as well
-            let buttonLabel = (skill.uses > 1000 ? skill.name : `${skill.name} (${skill.uses})`);
+            let buttonLabel = (skill.uses === -1 ? skill.name : `${skill.name} (${skill.uses})`);
             buttonLabel = `<img src="./images/${skill.icon}">` + buttonLabel;
-            createHTMLElement('button', buttonLabel, buttonWrapper, 'player-skill', { id: buttonId, skillname: skill.name }, true);
+            createHTMLElement('button', buttonLabel, buttonWrapper, 'player-skill', { id: buttonId, skillname: skill.name, title: skill.description }, true);
         }
     }
 }

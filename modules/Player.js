@@ -4,14 +4,16 @@
 */
 
 import FighterType from "./FighterType.js";
+import StatusEffect from "./StatusEffect.js";
+import AttackSkill from "./AttackSkill.js";
 import { gameInterface } from "./GameInterface.js";
 
 export default class Player {
     #playerId;
     #playerName;
     #currentHealth;
-    #currentArmor;
     #fighterType;
+    #statusEffects;
 
     ///////////////////////////////////////////////////////////////////////////////
     // Create a new player with the specified name and class/fighter-type
@@ -23,14 +25,7 @@ export default class Player {
         this.name = playerName;
         this.#fighterType = fighterType;
         this.#currentHealth = this.#fighterType.maxHealth;
-        this.#currentArmor = this.#fighterType.armor;
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////////
-    // Get the name of the player
-    get name() {
-        return this.#playerName;
+        this.#statusEffects = [];
     }
 
 
@@ -45,6 +40,13 @@ export default class Player {
     // Set the ID of the player
     set id(newID) {
         this.#playerId = newID;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Get the name of the player
+    get name() {
+        return this.#playerName;
     }
 
 
@@ -80,6 +82,13 @@ export default class Player {
 
 
     ///////////////////////////////////////////////////////////////////////////////
+    // Get the effective armor value of the player
+    get armor() {
+        return this.type.armor + (this.hasStatusEffect("evade") ? 5 : 0);
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
     // Damage the player the specified amount (capped at 0)
     takeDamage(damageAmount) {
         if (typeof damageAmount === "string") {
@@ -109,39 +118,82 @@ export default class Player {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Make the player use the skill with the specified name
-    useSkill(attackSkill, opponentPlayer) {
-        const skillObj = this.type.getAttackSkill(attackSkill);
-        const skillDmg = skillObj.useSkill();
+    // Apply a status effect to the player
+    addStatusEffect(effectType, duration) {
+        if (AttackSkill.statusEffects.includes(effectType) && (duration > 0)) {
 
-        // Assume it is healing if the skill is self-targeted
-        if ((skillObj.target == "self") && (skillObj.status == "heal")) {
-            this.heal(skillDmg);
-            gameInterface.showMessage(`${this.name} healed themselves for ${skillDmg} points.`);
+            this.#statusEffects.push(new StatusEffect(effectType, duration, this));
         }
-        else if ((skillObj.target == "self") && (skillObj.status == "evade")) {
-            // Todo: Effect lasting one round , +5 armor
-            gameInterface.showMessage(`${this.name} is evading attacks! (+5 armor for one round)`);
-        }
-        else {
-            const attackRoll = this.#rollD20(skillObj.hitChance);
-            const defenceRoll = this.#rollD20(opponentPlayer.type.armor);
-            console.log("ATTACK ROLL", attackRoll, "vs", defenceRoll);
-            if (attackRoll >= defenceRoll) {
-                opponentPlayer.takeDamage(skillDmg);
-                gameInterface.showMessage(`${this.name} attacked ${opponentPlayer.name} with ${skillObj.name} for ${skillDmg} damage.`);
-            }
-            else {
-                gameInterface.showMessage(`${this.name} attacked ${opponentPlayer.name} with ${skillObj.name} but missed!`);
-            }
-        }
-        return { damage: skillDmg, skill: skillObj };
     }
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Roll and return a random number between 1-20 with an added modifier value
-    #rollD20(modifier) {
-        return Math.ceil(Math.random() * 20) + modifier;
+    // Apply a status effect to the player
+    removeStatusEffect(effectType) {
+        const removeCount = 0;
+
+        if (AttackSkill.statusEffects.includes(effectType)) {
+            const updatedStatusList = [];
+
+            for (const status of this.#statusEffects) {
+                if (status.effectType != effectType) {
+                    updatedStatusList.push(status);
+                }
+                else {
+                    removeCount++;
+                    status.expireMessage();
+                }
+            }
+            this.#statusEffects = updatedStatusList;
+        }
+
+        return removeCount;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Check if this player has a status effect of the specified type applied. 
+    hasStatusEffect(effectType) {
+        for (const status of this.#statusEffects) {
+            if (status.effectType == effectType) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Update any status effects applied to the player
+    updateStatusEffects() {
+        const updatedStatusList = [];
+        for (let i = 0; i < this.#statusEffects.length; i++) {
+            const status = this.#statusEffects[i];
+
+            if (status.duration > 0) {
+                status.turnProc();
+                updatedStatusList.push(status);
+            }
+            else {
+                status.expireMessage();
+            }
+        }
+        this.#statusEffects = updatedStatusList;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Make the player use the skill with the specified name
+    useSkill(attackSkill, opponentPlayer) {
+        const skillObj = this.type.getAttackSkill(attackSkill);
+
+        console.log("USE SKILL: ", attackSkill);
+
+        if ((skillObj === undefined) || (skillObj === null)) {
+            throw new Error(`The skill ${attackSkill} is not known to a ${this.type}!`);
+        }
+
+        const skillDmg = skillObj.use(opponentPlayer, this);
+        return { damage: skillDmg, skill: skillObj };
     }
 }

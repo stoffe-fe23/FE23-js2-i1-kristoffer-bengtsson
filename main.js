@@ -18,6 +18,7 @@ try {
     game.nextPlayerTurn();
 }
 catch (error) {
+    console.error(error);
     gameInterface.showError(error);
 }
 

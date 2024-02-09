@@ -101,6 +101,6 @@ export default class FighterType {
         }
 
         // return this.#attackTypes.filter(({ charges }) => charges > 0).map((skill) => { return { name: skill.name, uses: skill.charges } });
-        return this.#attackTypes.filter(({ uses }) => uses > 0);
+        return this.#attackTypes.filter(({ uses }) => ((uses > 0) || (uses === -1)));
     }
 }
