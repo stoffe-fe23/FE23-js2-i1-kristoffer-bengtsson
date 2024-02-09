@@ -114,6 +114,20 @@ body {
     min-width: 6rem;
     min-height: 4rem;
     color: darkblue;
+    cursor: pointer;
+}
+
+#players .player-skill:disabled {
+    color: gray;
+    cursor: default;
+}
+
+.player-skill:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
+#players .player-skill:disabled:hover {
+    background-color: rgba(0,0,0,0.2);
 }
 
 .player-name span, 
@@ -158,8 +172,4 @@ body {
 
 .fighterclass-rogue .player-skill {
     color: darkgreen;
-}
-
-#players .player-skill:disabled {
-    color: gray;
 }
