@@ -124,9 +124,16 @@ export default class Player {
             gameInterface.showMessage(`${this.name} is evading attacks! (+5 armor for one round)`);
         }
         else {
-            console.log("ATTACK", this.#rollD20(this.type.armor), "vs", this.#rollD20(skillObj.hitChance));
-            opponentPlayer.takeDamage(skillDmg);
-            gameInterface.showMessage(`${this.name} attacked ${opponentPlayer.name} with ${skillObj.name} for ${skillDmg} damage.`);
+            const attackRoll = this.#rollD20(skillObj.hitChance);
+            const defenceRoll = this.#rollD20(this.type.armor);
+            console.log("ATTACK ROLL", attackRoll, "vs", defenceRoll);
+            if (attackRoll >= defenceRoll) {
+                opponentPlayer.takeDamage(skillDmg);
+                gameInterface.showMessage(`${this.name} attacked ${opponentPlayer.name} with ${skillObj.name} for ${skillDmg} damage.`);
+            }
+            else {
+                gameInterface.showMessage(`${this.name} attacked ${opponentPlayer.name} with ${skillObj.name} but missed!`);
+            }
         }
         return { damage: skillDmg, skill: skillObj };
     }
