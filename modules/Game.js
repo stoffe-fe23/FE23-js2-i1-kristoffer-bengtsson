@@ -86,6 +86,7 @@ export default class Game {
         setHTMLElement('div', player.name, outputElement, 'player-name', { id: `player-${player.id}-name` });
         setHTMLElement('div', player.type.name, outputElement, 'player-class', { id: `player-${player.id}-class` });
         setHTMLElement('div', `${player.health} / ${player.maxHealth}`, outputElement, 'player-health', { id: `player-${player.id}-health` });
+        setHTMLElement('img', 'Player avatar', outputElement, 'avatar-icon', { src: `${player.type.icon}` })
 
         this.#buildSkillButtons(player);
     }
@@ -123,8 +124,9 @@ export default class Game {
         for (const skill of playerSkills) {
             const buttonId = "player-" + player.id + "-" + skill.name.toLowerCase().replaceAll(' ', '-');
             // If the skill has limited uses, show remaining use as well
-            const buttonLabel = (skill.uses > 1000 ? skill.name : `${skill.name} (${skill.uses})`);
-            createHTMLElement('button', buttonLabel, buttonWrapper, 'player-skill', { id: buttonId, skillname: skill.name });
+            let buttonLabel = (skill.uses > 1000 ? skill.name : `${skill.name} (${skill.uses})`);
+            buttonLabel = `<img src="./images/${skill.icon}">` + buttonLabel;
+            createHTMLElement('button', buttonLabel, buttonWrapper, 'player-skill', { id: buttonId, skillname: skill.name }, true);
         }
     }
 }
