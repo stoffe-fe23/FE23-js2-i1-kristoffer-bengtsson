@@ -4,7 +4,7 @@ import AttackSkill from "../AttackSkill.js";
 export default class Mage extends FighterType {
 
     constructor() {
-        super('Wizard', 200, 13);
+        super('Wizard', 200, 13, "#00ff00", "mage.png");
 
         // Create unique skills for this fighter type
         // name, damageMin, damageMax, charges = -1, target = 'enemy', statusEffect = 'none', hitChance = 10

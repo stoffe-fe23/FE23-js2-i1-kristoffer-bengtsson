@@ -4,7 +4,7 @@ import AttackSkill from "../AttackSkill.js";
 export default class Warrior extends FighterType {
 
     constructor() {
-        super('Warrior', 600, 15);
+        super('Warrior', 600, 15, "#ff0000", "warrior.png");
 
         // Create unique skills for this fighter type
         // name, damageMin, damageMax, charges = -1, target = 'enemy', statusEffect = 'none', hitChance = 10

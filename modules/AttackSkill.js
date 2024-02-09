@@ -89,6 +89,12 @@ export default class AttackSkill {
     }
 
     ///////////////////////////////////////////////////////////////////////////////
+    // Return the icon for this skill
+    get icon() {
+        return this.#skillIcon;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
     // Use the skill, decreasing number of available uses and returning rolled damage
     useSkill() {
         if (this.#skillUses <= 0) {

@@ -4,7 +4,7 @@ import AttackSkill from "../AttackSkill.js";
 export default class Rogue extends FighterType {
 
     constructor() {
-        super('Rogue', 400, 14);
+        super('Rogue', 400, 14, "#0000ff", "rogue.png");
 
         // Create unique skills for this fighter type
         // name, damageMin, damageMax, charges = -1, target = 'enemy', statusEffect = 'none', hitChance = 10

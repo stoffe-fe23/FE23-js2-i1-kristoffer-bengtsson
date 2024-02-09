@@ -10,15 +10,19 @@ export default class FighterType {
     #maxHealth = 800;
     #armorClass = 10;
     #attackTypes = [];
+    #classColor;
+    #classIcon;
 
 
     ///////////////////////////////////////////////////////////////////////////////
     // Create fightertype with the specified name and health pool size
     // Fighter type skills are set in the sub-classes. 
-    constructor(fighterName, maxHealth, armorClass) {
+    constructor(fighterName, maxHealth, armorClass, color, icon) {
         this.name = fighterName;
         this.#maxHealth = maxHealth;
         this.#armorClass = armorClass;
+        this.#classColor = color;
+        this.#classIcon = icon;
     }
 
 
