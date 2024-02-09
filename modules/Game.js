@@ -25,7 +25,7 @@ export default class Game {
 
     ///////////////////////////////////////////////////////////////////////////////
     // Update the game for a turn, passing control to the next player
-    doGameTurn() {
+    nextPlayerTurn() {
         if (this.#currentPlayer === this.#playerTwo) {
             this.#gameRound++;
         }
@@ -107,7 +107,7 @@ export default class Game {
             buttonContainer.addEventListener("submit", (event) => {
                 event.preventDefault();
                 this.player.useSkill(event.submitter.getAttribute("skillname"), this.opponent);
-                this.doGameTurn();
+                this.nextPlayerTurn();
             });
         }
         else {
