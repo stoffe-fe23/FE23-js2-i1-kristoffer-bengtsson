@@ -130,4 +130,8 @@ export default class Player {
         }
         return { damage: skillDmg, skill: skillObj };
     }
+
+    #rollD20(modifier) {
+        return Math.ceil(Math.random() * 20) + modifier;
+    }
 }
