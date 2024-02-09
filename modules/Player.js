@@ -138,6 +138,9 @@ export default class Player {
         return { damage: skillDmg, skill: skillObj };
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Roll and return a random number between 1-20 with an added modifier value
     #rollD20(modifier) {
         return Math.ceil(Math.random() * 20) + modifier;
     }
