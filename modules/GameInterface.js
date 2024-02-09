@@ -6,6 +6,9 @@ class GameInterface {
     #messagesElement;
     #errorsElement;
     #playerElements;
+    #playerOne;
+    #playerTwo;
+    #playerIndicator;
 
     constructor() {
 
@@ -21,9 +24,37 @@ class GameInterface {
         this.#messagesElement = createHTMLElement('div', '', this.#parentElement, 'game-messages', { id: "messages" });
         this.#errorsElement = createHTMLElement('div', '', this.#parentElement, 'game-errors', { id: "errors" });
 
-        createHTMLElement('div', '', this.#playerElements, 'game-player', { id: `player-1` });
-        createHTMLElement('div', 'vs.', this.#playerElements, 'game-player-indicator', { id: `player-indicator` });
-        createHTMLElement('div', '', this.#playerElements, 'game-player', { id: `player-2` });
+        this.#playerOne = createHTMLElement('div', '', this.#playerElements, 'game-player', { id: `player-1` });
+        this.#playerIndicator = createHTMLElement('div', ' ► ', this.#playerElements, 'game-player-indicator', { id: `player-indicator` });
+        this.#playerTwo = createHTMLElement('div', '', this.#playerElements, 'game-player', { id: `player-2` });
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Set which player should be marked as the current player on the UI
+    setCurrentPlayer(playerNumber) {
+        if (playerNumber == 1) {
+            this.#playerIndicator.innerText = "►";
+            this.#playerOne.classList.add("activeplayer");
+            this.#playerTwo.classList.remove("activeplayer");
+        }
+        else {
+            this.#playerIndicator.innerText = "◄";
+            this.#playerOne.classList.remove("activeplayer");
+            this.#playerTwo.classList.add("activeplayer");
+        }
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Set the color of the player's avatar box
+    setPlayerColor(playerNumber, playerStyle) {
+        if (playerNumber == 1) {
+            this.#playerOne.classList.add(playerStyle);
+        }
+        else {
+            this.#playerTwo.classList.add(playerStyle);
+        }
     }
 
 

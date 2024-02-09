@@ -9,7 +9,7 @@ export default class Mage extends FighterType {
 
     constructor() {
         // name, health, defense, color, icon
-        super('Wizard', 200, 11, "#00ff00", "./images/mage.png");
+        super('Wizard', 200, 11, "fighterclass-mage", "./images/mage.png");
 
         // Create unique skills for this fighter type
         this.addSkill(new AttackSkill(

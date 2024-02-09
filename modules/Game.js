@@ -20,6 +20,9 @@ export default class Game {
 
         this.#playerOne.id = 1;
         this.#playerTwo.id = 2;
+
+        gameInterface.setPlayerColor(1, this.#playerOne.type.style);
+        gameInterface.setPlayerColor(2, this.#playerTwo.type.style);
     }
 
 
@@ -41,6 +44,7 @@ export default class Game {
         }
 
         gameInterface.showMessage(`<strong>Round ${this.#gameRound}:</strong> ${this.#currentPlayer.name}'s turn!`);
+        gameInterface.setCurrentPlayer(this.#currentPlayer.id);
 
         // Proc status effects
         this.#currentPlayer.updateStatusEffects();
@@ -94,8 +98,9 @@ export default class Game {
         const outputElement = gameInterface.getPlayerElement(player.id);
 
         setHTMLElement('div', player.name, outputElement, 'player-name', { id: `player-${player.id}-name` });
-        setHTMLElement('div', player.type.name, outputElement, 'player-class', { id: `player-${player.id}-class` });
-        setHTMLElement('div', `${player.health} / ${player.maxHealth}`, outputElement, 'player-health', { id: `player-${player.id}-health` });
+        setHTMLElement('div', `<span>Class:</span> ${player.type.name}`, outputElement, 'player-class', { id: `player-${player.id}-class` }, true);
+        setHTMLElement('div', `<span>Health:</span> ${player.health} / ${player.maxHealth}`, outputElement, 'player-health', { id: `player-${player.id}-health` }, true);
+        setHTMLElement('div', `<span>Defense:</span> ${player.armor}`, outputElement, 'player-defense', { id: `player-${player.id}-defense` }, true);
         setHTMLElement('img', 'Player avatar', outputElement, 'avatar-icon', { src: `${player.type.icon}` })
 
         this.#buildSkillButtons(player);

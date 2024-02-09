@@ -9,12 +9,13 @@ import Mage from "./modules/FighterTypes/Mage.js";
 
 // TEST! Create a couple of players and start a game. 
 try {
-    const outBox = document.querySelector("#game");
+    gameInterface.initialize(document.querySelector("#game"));
+
     const player1 = new Player("Testare", new Mage());
     const player2 = new Player("John Doe", new Rogue());
     const game = new Game(player1, player2);
 
-    gameInterface.initialize(outBox);
+
     game.nextPlayerTurn();
 }
 catch (error) {

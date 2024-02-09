@@ -9,7 +9,7 @@ export default class Rogue extends FighterType {
 
     constructor() {
         // name, health, defense, color, icon
-        super('Rogue', 300, 12, "#0000ff", "./images/rogue.png");
+        super('Rogue', 300, 12, "fighterclass-rogue", "./images/rogue.png");
 
         // Create unique skills for this fighter type
         this.addSkill(new AttackSkill(
@@ -29,7 +29,7 @@ export default class Rogue extends FighterType {
             40, // min damage
             70, // max damage
             10, // attack bonus
-            3, // uses per match
+            5, // uses per match
             "enemy", // target
             "none", // status effect
             'backstab.png', // icon
