@@ -10,14 +10,20 @@ export default class AttackSkill {
     #skillDamageMax;
     #skillUses;
     #skillTarget;
+    #skillStatus = 'none';
+    #statusEffects = ['none', 'heal', 'evade'];
 
 
     ///////////////////////////////////////////////////////////////////////////////
     // Set the name, damage range, number of uses and target of this skill
-    constructor(name, damageMin, damageMax, charges = -1, target = 'enemy') {
+    constructor(name, damageMin, damageMax, charges = -1, target = 'enemy', statusEffect = 'none') {
         this.#skillName = name;
         this.#skillDamageMin = damageMin;
         this.#skillDamageMax = damageMax;
+
+        if (this.#statusEffects.includes(statusEffect)) {
+            this.#skillStatus = statusEffect;
+        }
 
         // cap uses between 1 - 10 (-1 = unlimited uses)
         this.#skillUses = (charges == -1 ? 10000 : Math.max(1, Math.min(charges, 10)));
@@ -60,6 +66,12 @@ export default class AttackSkill {
     // Return the number of uses left of this skill
     get charges() {
         return this.#skillUses;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Return if this skill inflicts any kind of status effect.
+    get status() {
+        return this.#skillStatus;
     }
 
 

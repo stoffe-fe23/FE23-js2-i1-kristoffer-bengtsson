@@ -8,15 +8,17 @@ import AttackSkill from "./AttackSkill.js";
 export default class FighterType {
     #fighterName;
     #maxHealth = 800;
+    #armorClass = 10;
     #attackTypes = [];
 
 
     ///////////////////////////////////////////////////////////////////////////////
     // Create fightertype with the specified name and health pool size
     // Fighter type skills are set in the sub-classes. 
-    constructor(fighterName, maxHealth) {
+    constructor(fighterName, maxHealth, armorClass) {
         this.name = fighterName;
         this.#maxHealth = maxHealth;
+        this.#armorClass = armorClass;
     }
 
 
@@ -34,6 +36,13 @@ export default class FighterType {
     // Return the name of this fighter type
     get name() {
         return this.#fighterName;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Return the armor class of this fighter type
+    get armor() {
+        return this.#armorClass;
     }
 
 
