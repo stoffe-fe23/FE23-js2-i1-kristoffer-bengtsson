@@ -11,18 +11,23 @@ export default class AttackSkill {
     #skillUses;
     #skillTarget;
     #skillStatus = 'none';
+    #skillHitChance = 10;
     #statusEffects = ['none', 'heal', 'evade'];
 
 
     ///////////////////////////////////////////////////////////////////////////////
     // Set the name, damage range, number of uses and target of this skill
-    constructor(name, damageMin, damageMax, charges = -1, target = 'enemy', statusEffect = 'none') {
+    constructor(name, damageMin, damageMax, charges = -1, target = 'enemy', statusEffect = 'none', hitChance = 10) {
         this.#skillName = name;
         this.#skillDamageMin = damageMin;
         this.#skillDamageMax = damageMax;
 
         if (this.#statusEffects.includes(statusEffect)) {
             this.#skillStatus = statusEffect;
+        }
+
+        if ((hitChance > 1) && (hitChance <= 20)) {
+            this.#skillHitChance = hitChance;
         }
 
         // cap uses between 1 - 10 (-1 = unlimited uses)
@@ -76,6 +81,12 @@ export default class AttackSkill {
 
 
     ///////////////////////////////////////////////////////////////////////////////
+    // Return the hit chance modifier of this skill (1-20)
+    get hitChance() {
+        return this.#skillHitChance;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
     // Use the skill, decreasing number of available uses and returning rolled damage
     useSkill() {
         if (this.#skillUses <= 0) {
@@ -83,6 +94,10 @@ export default class AttackSkill {
         }
 
         this.#skillUses--;
+
+        if ((this.#skillDamageMax == 0) && (this.#skillDamageMin == 0)) {
+            return 0;
+        }
 
         // Roll a damage number within the damageMin to damageMax range
         return Math.round((this.#skillDamageMax - this.#skillDamageMin) * Math.random()) + this.#skillDamageMin;
