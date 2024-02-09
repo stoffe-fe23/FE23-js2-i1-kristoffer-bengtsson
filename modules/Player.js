@@ -124,7 +124,7 @@ export default class Player {
             gameInterface.showMessage(`${this.name} is evading attacks! (+5 armor for one round)`);
         }
         else {
-            console.log("ATTACK", this.type.armor, "vs", skillObj.hitChance);
+            console.log("ATTACK", this.#rollD20(this.type.armor), "vs", this.#rollD20(skillObj.hitChance));
             opponentPlayer.takeDamage(skillDmg);
             gameInterface.showMessage(`${this.name} attacked ${opponentPlayer.name} with ${skillObj.name} for ${skillDmg} damage.`);
         }
