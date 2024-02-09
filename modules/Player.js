@@ -10,6 +10,7 @@ export default class Player {
     #playerId;
     #playerName;
     #currentHealth;
+    #currentArmor;
     #fighterType;
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -22,6 +23,7 @@ export default class Player {
         this.name = playerName;
         this.#fighterType = fighterType;
         this.#currentHealth = this.#fighterType.maxHealth;
+        this.#currentArmor = this.#fighterType.armor;
     }
 
 
@@ -113,11 +115,16 @@ export default class Player {
         const skillDmg = skillObj.useSkill();
 
         // Assume it is healing if the skill is self-targeted
-        if (skillObj.target == "self") {
+        if ((skillObj.target == "self") && (skillObj.status == "heal")) {
             this.heal(skillDmg);
             gameInterface.showMessage(`${this.name} healed themselves for ${skillDmg} points.`);
         }
+        else if ((skillObj.target == "self") && (skillObj.status == "evade")) {
+            // Todo: Effect lasting one round , +5 armor
+            gameInterface.showMessage(`${this.name} is evading attacks! (+5 armor for one round)`);
+        }
         else {
+            console.log("ATTACK", this.type.armor, "vs", skillObj.hitChance);
             opponentPlayer.takeDamage(skillDmg);
             gameInterface.showMessage(`${this.name} attacked ${opponentPlayer.name} with ${skillObj.name} for ${skillDmg} damage.`);
         }

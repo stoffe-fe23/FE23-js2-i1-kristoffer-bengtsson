@@ -12,15 +12,17 @@ export default class AttackSkill {
     #skillTarget;
     #skillStatus = 'none';
     #skillHitChance = 10;
+    #skillIcon;
     #statusEffects = ['none', 'heal', 'evade'];
 
 
     ///////////////////////////////////////////////////////////////////////////////
     // Set the name, damage range, number of uses and target of this skill
-    constructor(name, damageMin, damageMax, charges = -1, target = 'enemy', statusEffect = 'none', hitChance = 10) {
+    constructor(name, damageMin, damageMax, charges = -1, target = 'enemy', statusEffect = 'none', hitChance = 10, icon = 'skill.png') {
         this.#skillName = name;
         this.#skillDamageMin = damageMin;
         this.#skillDamageMax = damageMax;
+        this.#skillIcon = icon;
 
         if (this.#statusEffects.includes(statusEffect)) {
             this.#skillStatus = statusEffect;
@@ -69,7 +71,7 @@ export default class AttackSkill {
 
     ///////////////////////////////////////////////////////////////////////////////
     // Return the number of uses left of this skill
-    get charges() {
+    get uses() {
         return this.#skillUses;
     }
 

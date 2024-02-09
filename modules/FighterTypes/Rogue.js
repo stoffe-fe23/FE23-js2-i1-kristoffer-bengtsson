@@ -4,13 +4,13 @@ import AttackSkill from "../AttackSkill.js";
 export default class Rogue extends FighterType {
 
     constructor() {
-        super('Rogue', 400);
+        super('Rogue', 400, 14);
 
         // Create unique skills for this fighter type
-        // AttackSkill constructor params: Skill name, minDamage, maxDamage, numberOfUses, target
-        this.addSkill(new AttackSkill("Stab", 5, 15));
-        this.addSkill(new AttackSkill("Backstab", 30, 60, 2));
-        this.addSkill(new AttackSkill("Evasion", 30, 30, 3, "self"));
-        this.addSkill(new AttackSkill("Potion", 30, 35, 2, "self"));
+        // name, damageMin, damageMax, charges = -1, target = 'enemy', statusEffect = 'none', hitChance = 10
+        this.addSkill(new AttackSkill("Stab", 5, 15, -1, "enemy", "none", 10, 'icon.png'));
+        this.addSkill(new AttackSkill("Backstab", 30, 60, 2, "enemy", "none", 10, 'icon.png'));
+        this.addSkill(new AttackSkill("Evasion", 30, 30, 3, "self", "none", 10, 'icon.png'));
+        this.addSkill(new AttackSkill("Potion", 30, 35, 2, "self", "none", 10, 'icon.png'));
     }
 }

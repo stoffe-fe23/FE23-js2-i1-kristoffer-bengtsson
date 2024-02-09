@@ -84,6 +84,7 @@ export default class FighterType {
             throw new Error(`The ${this.#fighterName} does not have any skills assigned!`);
         }
 
-        return this.#attackTypes.filter(({ charges }) => charges > 0).map((skill) => { return { name: skill.name, uses: skill.charges } });
+        // return this.#attackTypes.filter(({ charges }) => charges > 0).map((skill) => { return { name: skill.name, uses: skill.charges } });
+        return this.#attackTypes.filter(({ uses }) => uses > 0);
     }
 }
