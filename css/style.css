@@ -27,8 +27,40 @@ body {
     display: flex;
 }
 
+#players img{
+    width: 40px;
+}
+
+#players .avatar-icon{
+    width: 100px;
+}
+
+.player-skill{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.skill-button-wrapper{
+    display: flex;
+    flex-direction: row;
+}
 .game-player {
     margin: 0.5rem;
     padding: 1rem;
     background-color: lightgray;
 }
+
+/* .game-players {
+    grid-template-areas:
+        "player-name avatar-icon"
+        "player-class avatar-icon"
+}
+
+.player-name {
+    grid-area: player-name;
+}
+
+.player-class {
+    grid-area: player-class;
+} */
