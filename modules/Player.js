@@ -125,7 +125,7 @@ export default class Player {
         }
         else {
             const attackRoll = this.#rollD20(skillObj.hitChance);
-            const defenceRoll = this.#rollD20(this.type.armor);
+            const defenceRoll = this.#rollD20(opponentPlayer.type.armor);
             console.log("ATTACK ROLL", attackRoll, "vs", defenceRoll);
             if (attackRoll >= defenceRoll) {
                 opponentPlayer.takeDamage(skillDmg);
