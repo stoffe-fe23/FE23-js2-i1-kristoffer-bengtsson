@@ -143,7 +143,6 @@ export default class AttackSkill {
 
             // Apply status effect
             if ((this.status != "none") && (this.statusDuration > 0)) {
-                console.log("DEFENSIVE STATUS", this.status, this.statusDuration);
                 skillUser.addStatusEffect(this.status, this.statusDuration);
             }
         }
@@ -159,7 +158,6 @@ export default class AttackSkill {
 
                 // Apply status effect
                 if ((this.status != "none") && (this.statusDuration > 0)) {
-                    console.log("OFFENSIVE STATUS", this.status, this.statusDuration);
                     opponent.addStatusEffect(this.status, this.statusDuration);
                 }
             }

@@ -1,7 +1,9 @@
 
 import { createHTMLElement } from './utilities.js';
+import Game from "./Game.js";
 
 class GameInterface {
+    #game;
     #parentElement;
     #messagesElement;
     #errorsElement;
@@ -17,7 +19,7 @@ class GameInterface {
     ///////////////////////////////////////////////////////////////////////////////
     // Build the game interface inside the specified element: 
     // one box for each player and boxes for messages and errors
-    initialize(parentElement) {
+    initializeGame(parentElement, player1, player2) {
         this.#parentElement = parentElement;
         parentElement.innerHTML = '';
         this.#playerElements = createHTMLElement('div', '', this.#parentElement, 'game-players', { id: "players" });
@@ -27,6 +29,9 @@ class GameInterface {
         this.#playerOne = createHTMLElement('div', '', this.#playerElements, 'game-player', { id: `player-1` });
         this.#playerIndicator = createHTMLElement('div', ' ► ', this.#playerElements, 'game-player-indicator', { id: `player-indicator` });
         this.#playerTwo = createHTMLElement('div', '', this.#playerElements, 'game-player', { id: `player-2` });
+
+        this.#game = new Game(player1, player2);
+        this.#game.nextPlayerTurn();
     }
 
 

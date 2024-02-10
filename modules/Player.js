@@ -167,7 +167,6 @@ export default class Player {
     getStatusEffects() {
         const statusList = [];
         for (const status of this.#statusEffects) {
-            console.log("STATUS", status);
             statusList.push(`${status.effectName} [${parseInt(status.duration)}]`);
         }
         return statusList;
@@ -197,8 +196,6 @@ export default class Player {
     // Make the player use the skill with the specified name
     useSkill(attackSkill, opponentPlayer) {
         const skillObj = this.type.getAttackSkill(attackSkill);
-
-        console.log("USE SKILL: ", attackSkill);
 
         if ((skillObj === undefined) || (skillObj === null)) {
             throw new Error(`The skill ${attackSkill} is not known to a ${this.type}!`);

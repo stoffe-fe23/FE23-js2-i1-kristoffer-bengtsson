@@ -65,10 +65,6 @@ export function createHTMLElement(elementType, elementText, parentElement = null
     // Set CSS class(es) on the element
     addClassToElement(newElement, elementClass);
 
-    if (elementType == 'ul') {
-        console.log("FOR FUCKS SAKE", elementText);
-    }
-
     // Set content of element, if specified
     if (getIsValidArray(elementText)) {
         // If type is a list and text is an array, build list items

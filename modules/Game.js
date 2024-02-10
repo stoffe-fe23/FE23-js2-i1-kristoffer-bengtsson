@@ -27,6 +27,20 @@ export default class Game {
 
 
     ///////////////////////////////////////////////////////////////////////////////
+    // Get the player currently taking their turn
+    get player() {
+        return this.#currentPlayer;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Get the player currently waiting for their turn
+    get opponent() {
+        return (this.#currentPlayer === this.#playerOne ? this.#playerTwo : this.#playerOne);
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
     // Update the game for a turn, passing control to the next player
     nextPlayerTurn() {
         if (this.#currentPlayer === this.#playerTwo) {
@@ -75,20 +89,6 @@ export default class Game {
 
         gameInterface.showMessage(`<strong>GAME OVER:</strong> ${loser.name} is knocked out, ${winner.name} wins!`);
         gameInterface.showGameOverScreen(winner.name);
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////////
-    // Get the player currently taking their turn
-    get player() {
-        return this.#currentPlayer;
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////////
-    // Get the player currently waiting for their turn
-    get opponent() {
-        return (this.#currentPlayer === this.#playerOne ? this.#playerTwo : this.#playerOne);
     }
 
 
