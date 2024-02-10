@@ -1,26 +1,19 @@
 
 import gameInterface from "./modules/GameInterface.js";
+/*
+    TODO-lista: 
+    * Bättre feedback / visuell presentation av vad som händer i spelet.
+    * Ordentlig Game Over-skärm och presentation av att en match är över. 
+    * Bättre tooltips för skills (istf. title-attribut som nu).
+    * Visad textbeskrivning av vald klass i character creatorn.
+    * Utseende / design.
+*/
 
-
-// TEST! Create a couple of players and start a game. 
-newGame();
-
-function newGame() {
-    try {
-        const gameBox = document.querySelector("#game");
-        /*       
-                const player1 = { name: "Testare", type: "mage" };
-                const player2 = { name: "John Doe", type: "rogue" };
-        
-                gameInterface.startGame(gameBox, player1, player2);
-        */
-        gameInterface.newGame();
-    }
-    catch (error) {
-        console.error(error);
-        gameInterface.showError(error);
-    }
+// Start a new game 
+try {
+    gameInterface.newGame();
 }
-
-
-
+catch (error) {
+    console.error(error);
+    gameInterface.showError(error);
+}

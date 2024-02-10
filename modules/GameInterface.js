@@ -17,6 +17,7 @@ class GameInterface {
     #playerTwo;
     #playerIndicator;
 
+
     ///////////////////////////////////////////////////////////////////////////////
     // Create game interface object and connect it to a HTML element on the page
     // where the game will be shown. 
@@ -32,8 +33,8 @@ class GameInterface {
 
         this.#parentElement.innerHTML = '';
         this.#playerElements = createHTMLElement('div', '', this.#parentElement, 'game-players', { id: "players" });
-        this.#messagesElement = createHTMLElement('div', '', this.#parentElement, 'game-messages', { id: "messages" });
         this.#errorsElement = createHTMLElement('div', '', this.#parentElement, 'game-errors', { id: "errors" });
+        this.#messagesElement = createHTMLElement('div', '', this.#parentElement, 'game-messages', { id: "messages" });
 
         this.#playerOne = createHTMLElement('div', '', this.#playerElements, 'game-player', { id: `player-1` });
         this.#playerIndicator = createHTMLElement('div', ' ► ', this.#playerElements, 'game-player-indicator', { id: `player-indicator` });
@@ -47,6 +48,9 @@ class GameInterface {
         this.#game.nextPlayerTurn();
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Create fighter type class depending on string representation value.
     #createPlayerType(typeName) {
         switch (typeName) {
             case "warrior": return new Warrior();
@@ -92,34 +96,35 @@ class GameInterface {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Show a message to the player
+    // Show a message to the player (blue box)
     showMessage(messageText) {
         this.#messagesElement.prepend(createHTMLElement('div', messageText, null, 'game-message', null, true));
     }
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Show an error to the player
+    // Show an error message to the player (red box)
     showError(errorText) {
         this.#errorsElement.prepend(createHTMLElement('div', errorText, null, 'game-error', null, true));
     }
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Show some kind of screen when the game is over, declaring the winner. 
+    // TODO: Show some kind of screen when the game is over, declaring the winner. 
     showGameOverScreen(winnerName) {
         const gameoverBox = createHTMLElement('dialog', '', document.body, 'game-over', { id: "gameover" });
         createHTMLElement('h2', 'Game Over', gameoverBox, 'game-over-title', { id: "gameover-title" });
         createHTMLElement('div', `${winnerName} is victorious!`, gameoverBox, 'game-over-text', { id: "gameover-text" });
 
+        // New game button
         const restartButton = createHTMLElement('button', 'Play again!', gameoverBox, 'game-over-button', { id: "restart-button" });
         restartButton.addEventListener("click", (event) => {
             gameoverBox.close();
             gameoverBox.remove();
-            console.log("RESTART", this);
             this.newGame();
         });
 
+        // Dismiss popup button
         const endButton = createHTMLElement('button', 'OK', gameoverBox, 'game-over-button', { id: "gameover-button" });
         endButton.addEventListener("click", (event) => {
             gameoverBox.close();
@@ -162,7 +167,8 @@ class GameInterface {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Start a new game once the players have chosen their name and fighter-type.
+    // Form event handler: Start a new game once the players have chosen their name 
+    // and fighter-type.
     #onNewPlayersSubmit(event) {
         event.preventDefault();
 
