@@ -2,7 +2,7 @@
     Class: StatusEffect
     Class for a status effect applied to a player. Could be beneficial or detrimental. 
 */
-import { gameInterface } from "./GameInterface.js";
+import gameInterface from "./GameInterface.js";
 
 export default class StatusEffect {
     #effectType;

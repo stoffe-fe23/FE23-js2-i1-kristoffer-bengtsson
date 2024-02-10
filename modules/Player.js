@@ -2,11 +2,9 @@
     Class: Player
     Defines a player in the game, with their choice of name and fighter-type 
 */
-
 import FighterType from "./FighterType.js";
 import StatusEffect from "./StatusEffect.js";
 import AttackSkill from "./AttackSkill.js";
-import { gameInterface } from "./GameInterface.js";
 
 export default class Player {
     #playerId;

@@ -1,6 +1,11 @@
 
 import { createHTMLElement } from './utilities.js';
 import Game from "./Game.js";
+import Player from "./Player.js";
+import Rogue from "./FighterTypes/Rogue.js";
+import Warrior from "./FighterTypes/Warrior.js";
+import Mage from "./FighterTypes/Mage.js";
+
 
 class GameInterface {
     #game;
@@ -30,8 +35,20 @@ class GameInterface {
         this.#playerIndicator = createHTMLElement('div', ' ► ', this.#playerElements, 'game-player-indicator', { id: `player-indicator` });
         this.#playerTwo = createHTMLElement('div', '', this.#playerElements, 'game-player', { id: `player-2` });
 
-        this.#game = new Game(player1, player2);
+        this.#game = new Game(
+            new Player(player1.name, this.#createPlayerType(player1.type)),
+            new Player(player2.name, this.#createPlayerType(player2.type))
+        );
+
         this.#game.nextPlayerTurn();
+    }
+
+    #createPlayerType(typeName) {
+        switch (typeName) {
+            case "warrior": return new Warrior();
+            case "rogue": return new Rogue();
+            case "mage": return new Mage();
+        }
     }
 
 
@@ -105,4 +122,4 @@ class GameInterface {
 // Create gameInterface global object for use elsewhere. 
 const gameInterface = new GameInterface();
 
-export { GameInterface, gameInterface };
+export default gameInterface;

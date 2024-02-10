@@ -2,7 +2,7 @@
     Class: Game
     Logic for controlling a match in the game. 
 */
-import { gameInterface } from "./GameInterface.js";
+import gameInterface from "./GameInterface.js";
 import { createHTMLElement, setHTMLElement } from './utilities.js';
 
 export default class Game {
@@ -60,7 +60,7 @@ export default class Game {
         gameInterface.showMessage(`<strong>Round ${this.#gameRound}:</strong> ${this.#currentPlayer.name}'s turn!`);
         gameInterface.setCurrentPlayer(this.#currentPlayer.id);
 
-        // Proc status effects
+        // Process status effects
         this.#currentPlayer.updateStatusEffects();
 
         // Update player info

@@ -1,5 +1,4 @@
-import { gameInterface } from "./GameInterface.js";
-
+import gameInterface from "./GameInterface.js";
 /*
     Class: AttackSkill
     Defines a type of skill/attack a player can make (i.e. Fireball, Kick, Heal etc)
