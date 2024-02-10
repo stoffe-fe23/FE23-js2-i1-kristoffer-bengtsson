@@ -158,6 +158,76 @@ body {
     font-weight: 700;
 }
 
+/********** NEW PLAYERS FORM STYLING ***********/
+
+#new-players-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#new-players-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.start-game-button-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+#start-game-button {
+    padding: 1rem;
+    font-size: 1.5em;
+}
+
+.new-player-box {
+    margin: 0.5rem;
+    padding: 1.5rem;
+    background-color: lightgray;
+    min-width: 400px;
+}
+
+.new-player-box label:not(.input-box-label) {
+    display: block;
+    font-weight: 700;
+    margin-top: 0.5rem;
+}
+
+.new-player-box h2 {
+    margin-top: 0;
+}
+
+.input-box-label img {
+    max-width: 40px;
+}
+
+.new-player-class-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.new-player-class-wrapper label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem;
+}
+
+.new-player-class-wrapper input {
+    visibility: hidden;
+}
+
+.new-player-class-wrapper input:checked ~ label {
+    background-color: rgba(0,0,0, 0.25);
+    border-radius: 12px;
+}
+
+.new-player-class-wrapper label span {
+}
+
+
+
 /********** FIGHTER TYPE STYLING ***********/
 
 .fighterclass-warrior {

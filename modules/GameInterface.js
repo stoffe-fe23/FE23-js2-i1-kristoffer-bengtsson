@@ -17,16 +17,16 @@ class GameInterface {
     #playerTwo;
     #playerIndicator;
 
-    constructor() {
-
+    constructor(parentElement) {
+        this.#parentElement = parentElement;
     }
 
     ///////////////////////////////////////////////////////////////////////////////
     // Build the game interface inside the specified element: 
     // one box for each player and boxes for messages and errors
-    initializeGame(parentElement, player1, player2) {
-        this.#parentElement = parentElement;
-        parentElement.innerHTML = '';
+    startGame(player1, player2) {
+
+        this.#parentElement.innerHTML = '';
         this.#playerElements = createHTMLElement('div', '', this.#parentElement, 'game-players', { id: "players" });
         this.#messagesElement = createHTMLElement('div', '', this.#parentElement, 'game-messages', { id: "messages" });
         this.#errorsElement = createHTMLElement('div', '', this.#parentElement, 'game-errors', { id: "errors" });
@@ -116,10 +116,55 @@ class GameInterface {
 
         gameoverBox.showModal();
     }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    //
+    newGame() {
+        const newPlayersForm = createHTMLElement('form', '', this.#parentElement, 'new-players-form', { id: 'new-players-form' });
+        const newPlayersWrapper = createHTMLElement('div', '', newPlayersForm, 'new-players-wrapper', { id: 'new-players-wrapper' });
+
+        const playerOneBox = createHTMLElement('div', '', newPlayersWrapper, 'new-player-box', { id: 'new-player-one' });
+        createHTMLElement('h2', 'Player 1', playerOneBox, 'new-player-title');
+        createHTMLElement('input', 'Choose your name:', playerOneBox, 'new-player-name', { id: 'new-player-one-name', type: 'text', minlength: '2', maxlength: '20', required: 'true' });
+        createHTMLElement('label', 'Choose your class:', playerOneBox, 'new-player-label', { for: 'new-player-one-class' });
+        createHTMLElement('input', '<img src="./images/warrior.png" alt="Warrior"> <span>Warrior</span>', playerOneBox, 'new-player-class', { id: 'new-player-one-class-warrior', type: 'radio', name: 'new-player-one-class', value: 'warrior', checked: "true" }, true);
+        createHTMLElement('input', '<img src="./images/rogue.png" alt="Rogue"> <span>Rogue</span>', playerOneBox, 'new-player-class', { id: 'new-player-one-class-rogue', type: 'radio', name: 'new-player-one-class', value: 'rogue' }, true);
+        createHTMLElement('input', '<img src="./images/mage.png" alt="Wizard"> <span>Wizard</span>', playerOneBox, 'new-player-class', { id: 'new-player-one-class-mage', type: 'radio', name: 'new-player-one-class', value: 'mage' }, true);
+
+        const playerTwoBox = createHTMLElement('div', '', newPlayersWrapper, 'new-player-box', { id: 'new-player-two' });
+        createHTMLElement('h2', 'Player 2', playerTwoBox, 'new-player-title');
+        createHTMLElement('input', 'Choose your name:', playerTwoBox, 'new-player-name', { id: 'new-player-two-name', type: 'text', minlength: '2', maxlength: '20', required: 'true' });
+        createHTMLElement('label', 'Choose your class:', playerTwoBox, 'new-player-label', { for: 'new-player-two-class' });
+        createHTMLElement('input', '<img src="./images/warrior.png" alt="Warrior"> <span>Warrior</span>', playerTwoBox, 'new-player-class', { id: 'new-player-two-class-warrior', type: 'radio', name: 'new-player-two-class', value: 'warrior', checked: "true" }, true);
+        createHTMLElement('input', '<img src="./images/rogue.png" alt="Rogue"> <span>Rogue</span>', playerTwoBox, 'new-player-class', { id: 'new-player-two-class-rogue', type: 'radio', name: 'new-player-two-class', value: 'rogue' }, true);
+        createHTMLElement('input', '<img src="./images/mage.png" alt="Wizard"> <span>Wizard</span>', playerTwoBox, 'new-player-class', { id: 'new-player-two-class-mage', type: 'radio', name: 'new-player-two-class', value: 'mage' }, true);
+
+        const buttonsWrapper = createHTMLElement('div', '', newPlayersForm, 'start-game-button-wrapper');
+        createHTMLElement('button', 'Start game!', buttonsWrapper, 'start-game-button', { id: 'start-game-button' });
+
+        newPlayersForm.addEventListener("submit", this.#onNewPlayersSubmit.bind(this));
+    }
+
+    #onNewPlayersSubmit(event) {
+        event.preventDefault();
+        console.log("THIS!", this);
+
+        const player1 = {
+            name: document.querySelector("#new-player-one-name").value.trim(),
+            type: document.querySelector(`input[name="new-player-one-class"]:checked`).value
+        };
+
+        const player2 = {
+            name: document.querySelector("#new-player-two-name").value.trim(),
+            type: document.querySelector(`input[name="new-player-two-class"]:checked`).value
+        };
+
+        gameInterface.startGame(player1, player2);
+    }
 }
 
 
 // Create gameInterface global object for use elsewhere. 
-const gameInterface = new GameInterface();
+const gameInterface = new GameInterface(document.querySelector("#game"));
 
 export default gameInterface;

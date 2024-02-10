@@ -128,7 +128,7 @@ export default class Player {
     ///////////////////////////////////////////////////////////////////////////////
     // Apply a status effect to the player
     removeStatusEffect(effectType) {
-        const removeCount = 0;
+        let removeCount = 0;
 
         if (AttackSkill.statusEffects.includes(effectType)) {
             const updatedStatusList = [];

@@ -51,7 +51,7 @@ export function setHTMLElement(elementType, elementText, parentElement, cssClass
 //  * The elementAttributes parameter can be an object with a property for each attribute to set on the HTML element. 
 // Set CSS "white-space: pre-wrap;" on element if allowHTML is true and you wish to keep newlines displayed like innerText. 
 export function createHTMLElement(elementType, elementText, parentElement = null, elementClass = '', elementAttributes = null, allowHTML = false) {
-    const newElement = document.createElement(elementType);
+    let newElement = document.createElement(elementType);
 
     elementType = elementType.toLowerCase();
 
@@ -65,7 +65,7 @@ export function createHTMLElement(elementType, elementText, parentElement = null
     // Set CSS class(es) on the element
     addClassToElement(newElement, elementClass);
 
-    // Set content of element, if specified
+    // If text content is an array, check if the typs is a list or select tag
     if (getIsValidArray(elementText)) {
         // If type is a list and text is an array, build list items
         if ((elementType == 'ul') || (elementType == 'ol')) {
@@ -103,9 +103,33 @@ export function createHTMLElement(elementType, elementText, parentElement = null
         }
     }
     else if (getIsValidText(elementText, 1)) {
+        // Special case for images - set ALT attribute
         if (elementType == 'img') {
             newElement.alt = elementText;
         }
+        // Special case for input fields, create labels
+        else if ((elementType == 'input') && (elementText.length > 0)) {
+            const actualNewElement = newElement;
+            const newElementLabel = document.createElement("label");
+            newElement = document.createElement("div");
+            newElement.id = `${actualNewElement.id}-wrapper`;
+            if (elementClass.length > 0) {
+                newElement.classList.add((Array.isArray(elementClass) ? elementClass[0] : elementClass) + "-wrapper");
+            }
+
+            newElementLabel.setAttribute("for", actualNewElement.id);
+            setElementContent(newElementLabel, elementText, allowHTML);
+
+            if ((actualNewElement.getAttribute("type") == "radio") || (actualNewElement.getAttribute("type") == "checkbox")) {
+                newElementLabel.classList.add(`input-box-label`);
+                newElement.append(actualNewElement, newElementLabel);
+            }
+            else {
+                newElement.append(newElementLabel, actualNewElement);
+            }
+
+        }
+        // Everything else, set the text content
         else {
             setElementContent(newElement, elementText, allowHTML);
         }
