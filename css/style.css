@@ -199,7 +199,8 @@ body {
 }
 
 .input-box-label img {
-    max-width: 40px;
+    max-width: 50px;
+    border-radius: 50%;
 }
 
 .new-player-class-wrapper {
@@ -210,8 +211,10 @@ body {
 .new-player-class-wrapper label {
     display: flex;
     align-items: center;
+    position: relative;
+    left: -20px;
     gap: 0.5rem;
-    padding: 0.4rem 0.6rem;
+    padding: 0.4rem 1rem 0.4rem 0.5rem;
 }
 
 .new-player-class-wrapper input {
@@ -220,10 +223,7 @@ body {
 
 .new-player-class-wrapper input:checked ~ label {
     background-color: rgba(0,0,0, 0.25);
-    border-radius: 12px;
-}
-
-.new-player-class-wrapper label span {
+    border-radius: 15px;
 }
 
 

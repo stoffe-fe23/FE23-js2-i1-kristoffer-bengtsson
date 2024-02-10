@@ -17,9 +17,13 @@ class GameInterface {
     #playerTwo;
     #playerIndicator;
 
+    ///////////////////////////////////////////////////////////////////////////////
+    // Create game interface object and connect it to a HTML element on the page
+    // where the game will be shown. 
     constructor(parentElement) {
         this.#parentElement = parentElement;
     }
+
 
     ///////////////////////////////////////////////////////////////////////////////
     // Build the game interface inside the specified element: 
@@ -108,8 +112,16 @@ class GameInterface {
         createHTMLElement('h2', 'Game Over', gameoverBox, 'game-over-title', { id: "gameover-title" });
         createHTMLElement('div', `${winnerName} is victorious!`, gameoverBox, 'game-over-text', { id: "gameover-text" });
 
-        const restartButton = createHTMLElement('button', 'OK', gameoverBox, 'game-over-button', { id: "gameover-button" });
+        const restartButton = createHTMLElement('button', 'Play again!', gameoverBox, 'game-over-button', { id: "restart-button" });
         restartButton.addEventListener("click", (event) => {
+            gameoverBox.close();
+            gameoverBox.remove();
+            console.log("RESTART", this);
+            this.newGame();
+        });
+
+        const endButton = createHTMLElement('button', 'OK', gameoverBox, 'game-over-button', { id: "gameover-button" });
+        endButton.addEventListener("click", (event) => {
             gameoverBox.close();
             gameoverBox.remove();
         });
@@ -117,9 +129,12 @@ class GameInterface {
         gameoverBox.showModal();
     }
 
+
     ///////////////////////////////////////////////////////////////////////////////
-    //
+    // Show the new game character creation screen
     newGame() {
+        this.#parentElement.innerHTML = '';
+
         const newPlayersForm = createHTMLElement('form', '', this.#parentElement, 'new-players-form', { id: 'new-players-form' });
         const newPlayersWrapper = createHTMLElement('div', '', newPlayersForm, 'new-players-wrapper', { id: 'new-players-wrapper' });
 
@@ -145,9 +160,11 @@ class GameInterface {
         newPlayersForm.addEventListener("submit", this.#onNewPlayersSubmit.bind(this));
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Start a new game once the players have chosen their name and fighter-type.
     #onNewPlayersSubmit(event) {
         event.preventDefault();
-        console.log("THIS!", this);
 
         const player1 = {
             name: document.querySelector("#new-player-one-name").value.trim(),

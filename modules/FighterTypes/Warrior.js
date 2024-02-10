@@ -10,7 +10,7 @@ export default class Warrior extends FighterType {
 
     constructor() {
         // name, health, defense, color, icon
-        super('Warrior', 400, 13, "fighterclass-warrior", "./images/warrior.png");
+        super('Warrior', 400, 10, "fighterclass-warrior", "./images/warrior.png");
 
         // Create unique skills for this fighter type
         this.addSkill(new AttackSkill(
