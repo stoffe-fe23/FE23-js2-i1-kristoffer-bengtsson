@@ -31,9 +31,9 @@ export default class Rogue extends FighterType {
             10, // attack bonus
             5, // uses per match
             "enemy", // target
-            "none", // status effect
+            "riposte|1", // status effect | duration
             'backstab.png', // icon
-            'Backstab opponent for 30-60 damage. (+10 attack)'
+            'Backstab opponent for 30-60 damage and riposte incoming attacks for 1 turn, retaliating for 15 damage. (+10 attack)'
         ));
 
         this.addSkill(new AttackSkill(

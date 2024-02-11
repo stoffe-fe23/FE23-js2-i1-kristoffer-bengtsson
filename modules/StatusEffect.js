@@ -40,6 +40,7 @@ export default class StatusEffect {
             case "evade": return "Evading";
             case "burn": return "Burning";
             case "stun": return "Stunned";
+            case "riposte": return "Riposting";
         }
     }
 
@@ -80,11 +81,14 @@ export default class StatusEffect {
             case "stun":
                 gameInterface.showMessage(`${this.#effectTarget.name} is stunned for ${this.#effectDuration} rounds!`);
                 break;
+            case "riposte":
+                gameInterface.showMessage(`${this.#effectTarget.name} is riposting attacks for ${this.#effectDuration} rounds!`);
+                break;
         }
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Show a feedback message when the status effect is applied. 
+    // Show a feedback message when the status effect is expiring or removed. 
     expireMessage() {
         switch (this.effectType) {
             case "heal":
@@ -98,6 +102,9 @@ export default class StatusEffect {
                 break;
             case "stun":
                 gameInterface.showMessage(`${this.#effectTarget.name} recovered from stun.`);
+                break;
+            case "riposte":
+                gameInterface.showMessage(`${this.#effectTarget.name} stopped riposting attacks.`);
                 break;
         }
     }

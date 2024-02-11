@@ -5,7 +5,7 @@ import gameInterface from "./GameInterface.js";
 */
 
 export default class AttackSkill {
-    static statusEffects = ['none', 'heal', 'cure', 'evade', 'burn', 'stun'];
+    static statusEffects = ['none', 'heal', 'cure', 'evade', 'burn', 'stun', 'riposte'];
     #skillName;
     #skillDamageMin;
     #skillDamageMax;
@@ -156,9 +156,18 @@ export default class AttackSkill {
                 gameInterface.showMessage(`${skillUser.name} attacked ${opponent.name} with ${this.name} for ${skillRoll} damage.`);
 
                 // Apply status effect
-                if ((this.status != "none") && (this.statusDuration > 0)) {
+                if ((this.status == "riposte") && (this.statusDuration > 0)) {
+                    skillUser.addStatusEffect(this.status, this.statusDuration);
+                }
+                else if ((this.status != "none") && (this.statusDuration > 0)) {
                     opponent.addStatusEffect(this.status, this.statusDuration);
                 }
+
+                if (opponent.hasStatusEffect('riposte')) {
+                    skillUser.takeDamage(15);
+                    gameInterface.showMessage(`${opponent.name} riposted ${skillUser.name}'s attack dealing 15 damage in return.`);
+                }
+
             }
             else {
                 gameInterface.showMessage(`${skillUser.name} attacked ${opponent.name} with ${this.name} but missed!`);

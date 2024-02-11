@@ -119,14 +119,13 @@ export default class Player {
     // Apply a status effect to the player
     addStatusEffect(effectType, duration) {
         if (AttackSkill.statusEffects.includes(effectType) && (duration > 0)) {
-
             this.#statusEffects.push(new StatusEffect(effectType, duration, this));
         }
     }
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Apply a status effect to the player
+    // Remove a status effect from the player
     removeStatusEffect(effectType) {
         let removeCount = 0;
 
