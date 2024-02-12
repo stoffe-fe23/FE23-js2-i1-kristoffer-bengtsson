@@ -116,17 +116,18 @@ export default class Game {
         let buttonContainer = outputElement.querySelector(".skill-buttons");
         let buttonWrapper;
 
-        // If the button form does not exist, create it, otherwise use existing one.
+        // If the skill button form does not exist, create it, otherwise use existing one.
         if ((buttonContainer === undefined) || (buttonContainer === null)) {
             buttonContainer = createHTMLElement('form', '', outputElement, 'skill-buttons', { id: `player-${player.id}-skills` });
             buttonWrapper = createHTMLElement('fieldset', '', buttonContainer, 'skill-button-wrapper');
 
+            // Event handler for when the player clicks a skill button.
             buttonContainer.addEventListener("submit", (event) => {
                 event.preventDefault();
                 const usedSkill = event.submitter.getAttribute("skillname");
-                const skillRoll = this.player.useSkill(usedSkill, this.opponent);
+                const skillResult = this.player.useSkill(usedSkill, this.opponent);
 
-                gameInterface.showPlayerMove(this.player, this.opponent, usedSkill, skillRoll);
+                gameInterface.showPlayerMove(this.player, this.opponent, usedSkill, skillResult);
                 // this.nextPlayerTurn();
             });
         }

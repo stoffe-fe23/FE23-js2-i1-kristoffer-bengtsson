@@ -199,6 +199,6 @@ export default class Player {
         }
 
         const skillDmg = skillObj.use(opponentPlayer, this);
-        return { damage: skillDmg, skill: skillObj };
+        return { roll: skillDmg, skill: skillObj };
     }
 }

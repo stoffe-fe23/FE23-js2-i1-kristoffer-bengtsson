@@ -111,14 +111,23 @@ class GameInterface {
 
     ///////////////////////////////////////////////////////////////////////////////
     // TODO: Visually present the current player's action
-    showPlayerMove(player, opponent, skill, roll) {
+    showPlayerMove(player, opponent, skillName, skillResult) {
         // Disable buttons for both players while the move is displayed... 
         document.querySelectorAll(".skill-button-wrapper").forEach((buttonPanel) => {
             buttonPanel.disabled = true;
         });
 
         // TODO: Visualize player move here?
-        console.log("DEBUG:", skill, roll, opponent, player);
+        // Useful info: 
+        //  - player is the Player object of the player making the move
+        //  - opponent is the Player object of the other player (i.e. the target if not a self-target skill)
+        //  - skillName contains the name of the skill used
+        //  - skillResult is an object with two properties, "roll" and "skill":
+        // -  skillResult.skill is the AttackSkill object of the skill that was used.
+        //  - if skillResult.roll is null then the attack missed, otherwise the damage dealt, or health healed
+        //  - if skillResult.skill.status is not "none" then the skill applies that status effect if his
+        //  - if skillResult.skill.statusDuration is not 0 then it is the duration of the status effect, in rounds
+        console.log("DEBUG:", skillName, skillResult, opponent, player);
 
         // TODO: Do this (delayed?) when the presentation is done to pass control to the next player
         this.#game.nextPlayerTurn();
