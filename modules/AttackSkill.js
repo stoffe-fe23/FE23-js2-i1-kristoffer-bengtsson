@@ -123,7 +123,8 @@ export default class AttackSkill {
             throw new Error(`You cannot use ${this.#skillName} any more times during this match.`);
         }
 
-        const skillRoll = Math.round((this.#skillDamageMax - this.#skillDamageMin) * Math.random()) + this.#skillDamageMin;
+        let skillRoll = Math.round((this.#skillDamageMax - this.#skillDamageMin) * Math.random()) + this.#skillDamageMin;
+
         if (this.#skillUses != -1) {
             this.#skillUses--;
         }
@@ -171,6 +172,7 @@ export default class AttackSkill {
             }
             else {
                 gameInterface.showMessage(`${skillUser.name} attacked ${opponent.name} with ${this.name} but missed!`);
+                skillRoll = null;
             }
         }
 

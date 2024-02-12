@@ -110,6 +110,22 @@ class GameInterface {
 
 
     ///////////////////////////////////////////////////////////////////////////////
+    // TODO: Visually present the current player's action
+    showPlayerMove(player, opponent, skill, roll) {
+        // Disable buttons for both players while the move is displayed... 
+        document.querySelectorAll(".skill-button-wrapper").forEach((buttonPanel) => {
+            buttonPanel.disabled = true;
+        });
+
+        // TODO: Visualize player move here?
+        console.log("DEBUG:", skill, roll, opponent, player);
+
+        // TODO: Do this (delayed?) when the presentation is done to pass control to the next player
+        this.#game.nextPlayerTurn();
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
     // TODO: Show some kind of screen when the game is over, declaring the winner. 
     showGameOverScreen(winnerName) {
         const gameoverBox = createHTMLElement('dialog', '', document.body, 'game-over', { id: "gameover" });

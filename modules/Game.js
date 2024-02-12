@@ -123,8 +123,11 @@ export default class Game {
 
             buttonContainer.addEventListener("submit", (event) => {
                 event.preventDefault();
-                this.player.useSkill(event.submitter.getAttribute("skillname"), this.opponent);
-                this.nextPlayerTurn();
+                const usedSkill = event.submitter.getAttribute("skillname");
+                const skillRoll = this.player.useSkill(usedSkill, this.opponent);
+
+                gameInterface.showPlayerMove(this.player, this.opponent, usedSkill, skillRoll);
+                // this.nextPlayerTurn();
             });
         }
         else {
