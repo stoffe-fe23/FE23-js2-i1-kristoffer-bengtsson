@@ -127,6 +127,7 @@ class GameInterface {
         //  - if skillResult.roll is null then the attack missed, otherwise the damage dealt, or health healed
         //  - if skillResult.skill.status is not "none" then the skill applies that status effect if his
         //  - if skillResult.skill.statusDuration is not 0 then it is the duration of the status effect, in rounds
+        //  - skillResult.skill.icon is the icon of the used skill
         console.log("DEBUG:", skillName, skillResult, opponent, player);
 
         // TODO: Do this (delayed?) when the presentation is done to pass control to the next player
@@ -168,26 +169,30 @@ class GameInterface {
         const newPlayersForm = createHTMLElement('form', '', this.#parentElement, 'new-players-form', { id: 'new-players-form' });
         const newPlayersWrapper = createHTMLElement('div', '', newPlayersForm, 'new-players-wrapper', { id: 'new-players-wrapper' });
 
-        const playerOneBox = createHTMLElement('div', '', newPlayersWrapper, 'new-player-box', { id: 'new-player-one' });
-        createHTMLElement('h2', 'Player 1', playerOneBox, 'new-player-title');
-        createHTMLElement('input', 'Choose your name:', playerOneBox, 'new-player-name', { id: 'new-player-one-name', type: 'text', minlength: '2', maxlength: '20', required: 'true' });
-        createHTMLElement('label', 'Choose your class:', playerOneBox, 'new-player-label', { for: 'new-player-one-class' });
-        createHTMLElement('input', '<img src="./images/warrior.png" alt="Warrior"> <span>Warrior</span>', playerOneBox, 'new-player-class', { id: 'new-player-one-class-warrior', type: 'radio', name: 'new-player-one-class', value: 'warrior', checked: "true" }, true);
-        createHTMLElement('input', '<img src="./images/rogue.png" alt="Rogue"> <span>Rogue</span>', playerOneBox, 'new-player-class', { id: 'new-player-one-class-rogue', type: 'radio', name: 'new-player-one-class', value: 'rogue' }, true);
-        createHTMLElement('input', '<img src="./images/mage.png" alt="Wizard"> <span>Wizard</span>', playerOneBox, 'new-player-class', { id: 'new-player-one-class-mage', type: 'radio', name: 'new-player-one-class', value: 'mage' }, true);
+        // Player 1
+        this.#createNewPlayerBox(newPlayersWrapper, 'one');
 
-        const playerTwoBox = createHTMLElement('div', '', newPlayersWrapper, 'new-player-box', { id: 'new-player-two' });
-        createHTMLElement('h2', 'Player 2', playerTwoBox, 'new-player-title');
-        createHTMLElement('input', 'Choose your name:', playerTwoBox, 'new-player-name', { id: 'new-player-two-name', type: 'text', minlength: '2', maxlength: '20', required: 'true' });
-        createHTMLElement('label', 'Choose your class:', playerTwoBox, 'new-player-label', { for: 'new-player-two-class' });
-        createHTMLElement('input', '<img src="./images/warrior.png" alt="Warrior"> <span>Warrior</span>', playerTwoBox, 'new-player-class', { id: 'new-player-two-class-warrior', type: 'radio', name: 'new-player-two-class', value: 'warrior', checked: "true" }, true);
-        createHTMLElement('input', '<img src="./images/rogue.png" alt="Rogue"> <span>Rogue</span>', playerTwoBox, 'new-player-class', { id: 'new-player-two-class-rogue', type: 'radio', name: 'new-player-two-class', value: 'rogue' }, true);
-        createHTMLElement('input', '<img src="./images/mage.png" alt="Wizard"> <span>Wizard</span>', playerTwoBox, 'new-player-class', { id: 'new-player-two-class-mage', type: 'radio', name: 'new-player-two-class', value: 'mage' }, true);
+        // Player 2
+        this.#createNewPlayerBox(newPlayersWrapper, 'two');
 
         const buttonsWrapper = createHTMLElement('div', '', newPlayersForm, 'start-game-button-wrapper');
         createHTMLElement('button', 'Start game!', buttonsWrapper, 'start-game-button', { id: 'start-game-button' });
 
         newPlayersForm.addEventListener("submit", this.#onNewPlayersSubmit.bind(this));
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Form box for creating a new player
+    #createNewPlayerBox(parentElement, playerNum) {
+        const newPlayerBox = createHTMLElement('div', '', parentElement, 'new-player-box', { id: 'new-player-' + playerNum });
+        createHTMLElement('h2', 'Player ' + (playerNum == "one" ? "1" : "2"), newPlayerBox, 'new-player-title');
+        createHTMLElement('input', 'Choose your name:', newPlayerBox, 'new-player-name', { id: `new-player-${playerNum}-name`, type: 'text', minlength: '2', maxlength: '20', required: 'true' });
+        createHTMLElement('label', 'Choose your class:', newPlayerBox, 'new-player-label', { for: `new-player-${playerNum}-class` });
+        createHTMLElement('input', '<img src="./images/warrior.png" alt="Warrior"> <span>Warrior</span>', newPlayerBox, 'new-player-class', { id: `new-player-${playerNum}-class-warrior`, type: 'radio', name: `new-player-${playerNum}-class`, value: 'warrior', checked: "true" }, true);
+        createHTMLElement('input', '<img src="./images/rogue.png" alt="Rogue"> <span>Rogue</span>', newPlayerBox, 'new-player-class', { id: `new-player-${playerNum}-class-rogue`, type: 'radio', name: `new-player-${playerNum}-class`, value: 'rogue' }, true);
+        createHTMLElement('input', '<img src="./images/mage.png" alt="Wizard"> <span>Wizard</span>', newPlayerBox, 'new-player-class', { id: `new-player-${playerNum}-class-mage`, type: 'radio', name: `new-player-${playerNum}-class`, value: 'mage' }, true);
+        return newPlayerBox;
     }
 
 
