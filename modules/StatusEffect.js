@@ -35,7 +35,18 @@ export default class StatusEffect {
     ///////////////////////////////////////////////////////////////////////////////
     // Return a display name of the type of status effect
     get effectName() {
-        switch (this.effectType) {
+        /*         switch (this.effectType) {
+                    case "heal": return "Health regen";
+                    case "evade": return "Evading";
+                    case "burn": return "Burning";
+                    case "stun": return "Stunned";
+                    case "riposte": return "Riposting";
+                } */
+        return StatusEffect.getEffectName(this.effectType);
+    }
+
+    static getEffectName(effectType) {
+        switch (effectType) {
             case "heal": return "Health regen";
             case "evade": return "Evading";
             case "burn": return "Burning";

@@ -6,6 +6,9 @@ body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
 }
 
+.feedback-statuseffect {
+    font-size: 0.9rem;
+}
 
 #messages {
     background-color: darkblue;

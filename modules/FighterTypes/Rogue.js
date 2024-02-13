@@ -9,7 +9,7 @@ export default class Rogue extends FighterType {
 
     constructor() {
         // name, health, defense, color, icon
-        super('Rogue', 300, 9, "fighterclass-rogue", "./images/rogue.png");
+        super('Rogue', 300, 4, "fighterclass-rogue", "./images/rogue.png");
 
         // Create unique skills for this fighter type
         this.addSkill(new AttackSkill(

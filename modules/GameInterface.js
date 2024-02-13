@@ -5,6 +5,7 @@ import Player from "./Player.js";
 import Rogue from "./FighterTypes/Rogue.js";
 import Warrior from "./FighterTypes/Warrior.js";
 import Mage from "./FighterTypes/Mage.js";
+import StatusEffect from './StatusEffect.js';
 
 
 class GameInterface {
