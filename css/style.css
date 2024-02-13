@@ -55,6 +55,20 @@ body {
 
 #player-indicator {
     font-size: 10rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+#player-indicator .player-indicator-archer{
+    width: 80px;
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+#player-indicator .feedback-damage{
+    font-size: 1rem;
 }
 
 .activeplayer {
@@ -178,6 +192,10 @@ body {
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
 }
 
+#players .feedback-skillIcon{
+    width: 60px;
+
+}
 .player-skill:hover + .player-skill-tooltip {
     display: block;
 }

@@ -38,7 +38,7 @@ class GameInterface {
         this.#messagesElement = createHTMLElement('div', '', this.#parentElement, 'game-messages', { id: "messages" });
 
         this.#playerOne = createHTMLElement('div', '', this.#playerElements, 'game-player', { id: `player-1` });
-        this.#playerIndicator = createHTMLElement('div', ' ► ', this.#playerElements, 'game-player-indicator', { id: `player-indicator` });
+        this.#playerIndicator = createHTMLElement('div', '', this.#playerElements, 'game-player-indicator', { id: `player-indicator` });
         this.#playerTwo = createHTMLElement('div', '', this.#playerElements, 'game-player', { id: `player-2` });
 
         this.#game = new Game(
@@ -64,13 +64,15 @@ class GameInterface {
     ///////////////////////////////////////////////////////////////////////////////
     // Set which player should be marked as the current player on the UI
     setCurrentPlayer(playerNumber) {
+
+        this.#playerIndicator.innerHTML = " ";
         if (playerNumber == 1) {
-            this.#playerIndicator.innerText = "►";
+            createHTMLElement('img', 'Arrow', this.#playerIndicator, "player-indicator-archer", { src: "./images/archerright.png" })
             this.#playerOne.classList.add("activeplayer");
             this.#playerTwo.classList.remove("activeplayer");
         }
         else {
-            this.#playerIndicator.innerText = "◄";
+            createHTMLElement('img', 'Arrow', this.#playerIndicator, "player-indicator-archer", { src: "./images/archerleft.png" })
             this.#playerOne.classList.remove("activeplayer");
             this.#playerTwo.classList.add("activeplayer");
         }
@@ -117,6 +119,14 @@ class GameInterface {
         document.querySelectorAll(".skill-button-wrapper").forEach((buttonPanel) => {
             buttonPanel.disabled = true;
         });
+
+
+        createHTMLElement(`img`, "", this.#playerIndicator, "feedback-skillIcon", { src: `./images/` + skillResult.skill.icon })
+
+        createHTMLElement(`p`, `${skillResult.roll == null ? "miss" : skillResult.roll}`, this.#playerIndicator, "feedback-damage")
+
+
+
 
         // TODO: Visualize player move here?
         // Useful info: 
