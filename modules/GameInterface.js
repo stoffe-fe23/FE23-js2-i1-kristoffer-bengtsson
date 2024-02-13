@@ -125,6 +125,9 @@ class GameInterface {
 
         createHTMLElement(`p`, `${skillResult.roll == null ? "miss" : skillResult.roll}`, this.#playerIndicator, "feedback-damage")
 
+        if (skillResult.roll !== null) {
+            createHTMLElement('div', StatusEffect.getEffectName(skillResult.skill.status), this.#playerIndicator, 'feedback-statuseffect');
+        }
 
 
 
