@@ -1,6 +1,10 @@
 /*
+    Inlämningsuppgift 1 - FE23 Javascript 2
+    Kristoffer Bengtsson
+    Yasir Kakar
+
     Class: FighterType -> Rogue
-    Definition for a player of the rogue class.
+    Definition of stats and skills for a player of the rogue class.
 */
 import FighterType from "../FighterType.js";
 import AttackSkill from "../AttackSkill.js";
@@ -31,7 +35,7 @@ export default class Rogue extends FighterType {
             10, // attack bonus
             5, // uses per match
             "enemy", // target
-            "riposte|1", // status effect | duration
+            "riposte|1", // status effect | duration (retaliate against incoming attacks)
             'backstab.png', // icon
             'Backstab opponent for 30-60 damage and riposte incoming attacks for 1 turn, retaliating for 15 damage. (+10 attack)'
         ));
@@ -43,9 +47,9 @@ export default class Rogue extends FighterType {
             0, // attack bonus
             3, // uses per match
             "self", // target
-            "evade|2",  // status effect | duration
+            "evade|3",  // status effect | duration (defense bonus)
             'evasion.png',  // icon
-            'Evade attacks for two rounds (+5 defense).'
+            'Evade attacks for three rounds (+15 defense).'
         ));
 
         this.addSkill(new AttackSkill(
@@ -53,9 +57,9 @@ export default class Rogue extends FighterType {
             30, // min damage
             35, // max damage
             10, // attack bonus
-            2, // uses per match
+            3, // uses per match
             "self", // target
-            "heal|2", // status effect | duration
+            "heal|2", // status effect | duration (heal + health regen over time)
             'potion.png', // icon
             'Heal yourself for 30-35 health and regen 10 health for 2 rounds.'
         ));

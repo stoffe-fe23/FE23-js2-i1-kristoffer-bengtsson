@@ -1,6 +1,10 @@
 /*
+    Inlämningsuppgift 1 - FE23 Javascript 2
+    Kristoffer Bengtsson
+    Yasir Kakar
+
     Class: Player
-    Defines a player in the game, with their choice of name and fighter-type 
+    Defines a player in the game, with their game state and choice of name and fighter-type.
 */
 import FighterType from "./FighterType.js";
 import StatusEffect from "./StatusEffect.js";
@@ -12,9 +16,9 @@ export default class Player {
     #currentHealth;
     #fighterType;
     #statusEffects;
+    #combatRound;
 
-    ///////////////////////////////////////////////////////////////////////////////
-    // Create a new player with the specified name and class/fighter-type
+
     constructor(playerName, fighterType) {
         if ((typeof fighterType !== "object") || !(fighterType instanceof FighterType)) {
             throw new Error("Invalid fighter type specified!");
@@ -24,6 +28,7 @@ export default class Player {
         this.#fighterType = fighterType;
         this.#currentHealth = this.#fighterType.maxHealth;
         this.#statusEffects = [];
+        this.#combatRound = 0;
     }
 
 
@@ -37,7 +42,12 @@ export default class Player {
     ///////////////////////////////////////////////////////////////////////////////
     // Set the ID of the player
     set id(newID) {
-        this.#playerId = newID;
+        if ((newID == 1) || (newID == 2)) {
+            this.#playerId = newID;
+        }
+        else {
+            throw new Error("The player ID must be either 1 or 2.");
+        }
     }
 
 
@@ -66,7 +76,7 @@ export default class Player {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Get the size of the health pool of the player (depending on fighter type)
+    // Get the size of the health pool of the player (depends on chosen fighter type)
     get maxHealth() {
         return this.#fighterType.maxHealth;
     }
@@ -80,14 +90,28 @@ export default class Player {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Get the effective armor value of the player
+    // Get the effective defense bonus value of the player
     get armor() {
-        return this.type.armor + (this.hasStatusEffect("evade") ? 5 : 0);
+        return this.type.armor + (this.hasStatusEffect("evade") ? 15 : 0);
     }
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Damage the player the specified amount (capped at 0)
+    // Get the value of the combat round counter for the player
+    get round() {
+        return this.#combatRound;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Increment the combat round counter of the player
+    incrementRound() {
+        this.#combatRound++;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Damage the player by the specified amount (capped at 0)
     takeDamage(damageAmount) {
         if (typeof damageAmount === "string") {
             damageAmount = parseInt(damageAmount);
@@ -101,13 +125,12 @@ export default class Player {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Heal the player the specified amount (capped at health pool size)
+    // Heal the player the specified amount (capped at the health pool size)
     heal(healAmount) {
         if (typeof healAmount === "string") {
             healAmount = parseInt(healAmount);
         }
         if (healAmount > 0) {
-            // Cap healing to not exceed max health... 
             healAmount = (this.#currentHealth + healAmount > this.type.maxHealth ? this.type.maxHealth - this.#currentHealth : healAmount);
             this.#currentHealth += healAmount;
         }
@@ -159,29 +182,29 @@ export default class Player {
         return false;
     }
 
+
     ///////////////////////////////////////////////////////////////////////////////
-    // Check if this player has a status effect of the specified type applied. 
+    // Get an array listing all status effects applied to the player.  
     getStatusEffects() {
         const statusList = [];
         for (const status of this.#statusEffects) {
-            statusList.push(`${status.effectName} [${parseInt(status.duration)}]`);
+            statusList.push(`<span class="status-${status.effectType}">${status.effectName} [${parseInt(status.duration)}]</span>`);
         }
         return statusList;
     }
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Update any status effects applied to the player
+    // Update duration of any status effects applied to the player and proc 
+    // effects that apply per round. 
     updateStatusEffects() {
         const updatedStatusList = [];
         for (let i = 0; i < this.#statusEffects.length; i++) {
             const status = this.#statusEffects[i];
 
+            status.turnProc();
             if (status.duration > 0) {
-                status.turnProc();
-                if (status.duration > 0) {
-                    updatedStatusList.push(status);
-                }
+                updatedStatusList.push(status);
             }
             else {
                 status.expireMessage();

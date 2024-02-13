@@ -1,6 +1,10 @@
 /*
+    Inlämningsuppgift 1 - FE23 Javascript 2
+    Kristoffer Bengtsson
+    Yasir Kakar
+
     Class: FighterType -> Warrior
-    Definition for a player of the warrior class.
+    Definition of stats and skills for a player of the warrior class.
 */
 
 import FighterType from "../FighterType.js";
@@ -34,7 +38,7 @@ export default class Warrior extends FighterType {
             "enemy", // target
             "none", // status effect
             'Bash.png',
-            'Bash opponent for 5-30 damage. (+10 attack)'
+            'Bash opponent for 5-40 damage. (+10 attack)'
         ));
 
         this.addSkill(new AttackSkill(
@@ -44,7 +48,7 @@ export default class Warrior extends FighterType {
             10, // attack bonus
             3, // uses per match
             "enemy", // target
-            "stun|1", // status effect | duration
+            "stun|1", // status effect | duration (skip turn)
             'Bonk.png',
             'Bonk opponent on the head for 15-20 damage, stunning them for 1 round. (+10 attack)'
         ));
@@ -56,7 +60,7 @@ export default class Warrior extends FighterType {
             5, // attack bonus
             3, // uses per match
             "enemy", // target
-            "burn|2", // status effect | duration
+            "burn|2", // status effect | duration (damage over time)
             'smash.png', // icon
             'Hit opponent with a flaming blade for 50 damage and inflict burn for 2 rounds. (+5 attack)'
         ));

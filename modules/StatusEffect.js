@@ -1,6 +1,17 @@
 /*
+    Inlämningsuppgift 1 - FE23 Javascript 2
+    Kristoffer Bengtsson
+    Yasir Kakar
+
     Class: StatusEffect
-    Class for a status effect applied to a player. Could be beneficial or detrimental. 
+    Class for defining a status effect applied to a player, either beneficial or detrimental. 
+    Valid status effect types are:
+    'heal'      - instant heal + health regen over time: 10 health/round
+    'cure'      - instant heal + cure burning
+    'evade'     - +15 defense bonus
+    'burn'      - Damage over time: 10 damage/round
+    'stun'      - Affected player skips their turn
+    'riposte'   - Retaliate against incoming attacks, dealing 15 damage
 */
 import gameInterface from "./GameInterface.js";
 
@@ -15,7 +26,7 @@ export default class StatusEffect {
         this.#effectType = effectType;
         this.#effectTarget = target;
 
-        this.showFeedback();
+        this.#showFeedback();
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -41,9 +52,11 @@ export default class StatusEffect {
 
     ///////////////////////////////////////////////////////////////////////////////
     // Get string representation / name of an effect type
+    // Static to allow general type to name lookup outside of StatusEffect objects. 
     static getEffectName(effectType) {
         switch (effectType) {
             case "heal": return "Health regen";
+            case "cure": return "Healing";
             case "evade": return "Evading";
             case "burn": return "Burning";
             case "stun": return "Stunned";
@@ -54,7 +67,7 @@ export default class StatusEffect {
 
     ///////////////////////////////////////////////////////////////////////////////
     // Do round update for the status effect. Decrease remaining duration and
-    // apply any effects that tick per round. 
+    // apply any effects that tick per turn. 
     turnProc() {
         if (this.#effectDuration > 0) {
             this.#effectDuration--;
@@ -72,9 +85,10 @@ export default class StatusEffect {
         }
     }
 
+
     ///////////////////////////////////////////////////////////////////////////////
     // Show a feedback message when the status effect is applied. 
-    showFeedback() {
+    #showFeedback() {
         switch (this.effectType) {
             case "heal":
                 gameInterface.showMessage(`${this.#effectTarget.name} is regenerating health for ${this.#effectDuration} rounds!`);
@@ -93,6 +107,7 @@ export default class StatusEffect {
                 break;
         }
     }
+
 
     ///////////////////////////////////////////////////////////////////////////////
     // Show a feedback message when the status effect is expiring or removed. 

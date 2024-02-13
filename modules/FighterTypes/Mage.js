@@ -1,6 +1,10 @@
 /*
+    Inlämningsuppgift 1 - FE23 Javascript 2
+    Kristoffer Bengtsson
+    Yasir Kakar
+
     Class: FighterType -> Mage
-    Definition for a player of the mage class.
+    Definition of stats and skills for a player of the mage class.
 */
 import FighterType from "../FighterType.js";
 import AttackSkill from "../AttackSkill.js";
@@ -31,9 +35,9 @@ export default class Mage extends FighterType {
             10, // attack bonus
             6,  // uses per match
             "enemy",  // target
-            "burn|2", // status effect | duration
+            "burn|3", // status effect | duration (damage over time)
             'Ig-miss.png', // icon
-            'Attempt to scorch opponent for 35-40 damage with a firebolt, burning for 10 damage over 2 rounds. (+5 attack)'
+            'Attempt to scorch opponent for 35-40 damage with a firebolt, burning for 10 damage over 3 rounds. (+5 attack)'
         ));
 
         this.addSkill(new AttackSkill(
@@ -43,7 +47,7 @@ export default class Mage extends FighterType {
             10, // attack bonus
             3,  // uses per match
             "enemy", // target
-            "stun|1", // status effect
+            "stun|1", // status effect | duration (skip turn)
             'lightning.png', // icon
             'Electrocute opponent with a lightning bolt for 50-60 damage, stunning for 1 round. (+10 attack)'
         ));
@@ -55,7 +59,7 @@ export default class Mage extends FighterType {
             10, // attack bonus
             3, // uses per match
             "self", // target
-            "cure", // status effect
+            "cure", // status effect (instant, heal + cure burning)
             'heal.png', // icon
             'Heal yourself for 50 health and cure burning.'
         ));

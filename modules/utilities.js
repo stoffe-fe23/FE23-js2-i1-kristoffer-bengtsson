@@ -1,5 +1,5 @@
 /*
-    Generic tools functions. 
+    Generic utility functions. 
 */
 
 
@@ -44,12 +44,12 @@ export function setHTMLElement(elementType, elementText, parentElement, cssClass
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-// Create and return a new DOM element with text content, optionally appending it to a parent element.
+// Create and return a new DOM element with content, optionally appending it to a parent element.
 //  * elementText can either be a string holding the content of the tag or the ALT of an img tag, or an array of strings 
-//    with the options for UL, OL and SELECT tags. In the latter case the string can also be formated like: value|textlabel|optgroup
-//  * elementClass can ba a string or an array of strings. 
+//    with the options for UL, OL and SELECT tags. In the latter case the strings can also be formated like: value|textlabel|optgroup
+//  * elementClass can be a string or an array of strings holding CSS class(es) to apply to the element. 
 //  * The elementAttributes parameter can be an object with a property for each attribute to set on the HTML element. 
-// Set CSS "white-space: pre-wrap;" on element if allowHTML is true and you wish to keep newlines displayed like innerText. 
+// Note: Set CSS "white-space: pre-wrap;" on element if allowHTML is true and you wish to keep newlines displayed like with innerText. 
 export function createHTMLElement(elementType, elementText, parentElement = null, elementClass = '', elementAttributes = null, allowHTML = false) {
     let newElement = document.createElement(elementType);
 
@@ -134,7 +134,6 @@ export function createHTMLElement(elementType, elementText, parentElement = null
             setElementContent(newElement, elementText, allowHTML);
         }
     }
-
 
     // Append to parent, if set
     if ((parentElement !== undefined) && (parentElement !== null)) {

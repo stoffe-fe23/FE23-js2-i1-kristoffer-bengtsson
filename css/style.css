@@ -1,3 +1,11 @@
+/*
+    Inlämningsuppgift 1 - FE23 Javascript 2
+    Kristoffer Bengtsson
+    Yasir Kakar
+
+    Main layout stylesheet.
+*/
+
 * {
     box-sizing: border-box;
 }
@@ -8,13 +16,33 @@ body {
 
 .feedback-statuseffect {
     font-size: 0.9rem;
+    padding: 0.3rem 0.5rem;
+    margin: 0.25rem 0.1rem;
+    border-radius: 12px;
+    color: white;
 }
 
 #messages {
-    background-color: darkblue;
+    background-color: rgb(54, 54, 94);
     color: white;
     padding: 1rem;
-    margin: 0.5rem;
+    margin: 0.5rem auto;
+    max-width: 900px;
+}
+
+#messages::before {
+    content: 'Combat Log';
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 1.2em;
+    display: block;
+    border-bottom: 1px solid orange;
+    color: orange;
+    margin-bottom: 0.5rem;
+}
+
+#messages strong {
+    color: orange;
 }
 
 .game-message {
@@ -22,15 +50,21 @@ body {
 }
 
 #errors {
+    display: none;
     background-color: darkred;
     color: white;
     padding: 1rem;
     margin: 2rem 0.5rem 0.5rem 0.5rem;
 }
 
+#errors.show {
+    display: block;
+}
+
 
 #players {
     display: flex;
+    margin-bottom: 3rem;
 }
 
 #players img {
@@ -42,16 +76,12 @@ body {
     width: 100px;
 }
 
-.game-player {
-    margin: 0.5rem;
-    padding: 1rem;
-    background-color: lightgray;
-}
-
 .game-players {
     display: flex;
     justify-content: center;
 }
+
+/********** Action Feedback ***********/
 
 #player-indicator {
     font-size: 10rem;
@@ -61,23 +91,35 @@ body {
     
 }
 
-#player-indicator .player-indicator-archer{
+#player-indicator .player-indicator-archer {
     width: 80px;
     margin-top: 40px;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 
-#player-indicator .feedback-damage{
+#player-indicator .feedback-damage {
     font-size: 1rem;
+    font-weight: 700;
+    color: darkred;
+    margin: 0;
+}
+
+#player-indicator .feedback-healing {
+    font-size: 1rem;
+    font-weight: 700;
+    color: darkgreen;
+    margin: 0;
 }
 
 .activeplayer {
     outline: 8px solid yellow;
 }
 
+/********** Player Cards **********/
+
 .game-player {
     display: grid;
-    min-width: 500px;
+    min-width: 425px;
     grid-template-columns: 1fr auto;
     grid-template-areas:
         "player-name avatar-icon"
@@ -86,6 +128,9 @@ body {
         "player-defense avatar-icon"
         "player-effects player-effects"
         "player-buttons player-buttons";
+    margin: 0.5rem;
+    padding: 1rem;
+    background-color: lightgray;
 }
 
 .player-name {
@@ -115,13 +160,28 @@ body {
     gap: 0.2rem;
 }
 
-.player-effects li {
+.player-effects li span {
     background-color: rgb(0, 0, 0, 0.7);
     color: white;
     font-size: 0.8em;
     margin: 0;
     padding: 0.25rem 0.5rem;
     border-radius: 10px;
+}
+
+#players .status-stun, 
+#players .status-burn {
+    background-color: darkred;
+}
+
+#players .status-heal, 
+#players .status-cure {
+    background-color: darkgreen;
+}
+
+#players .status-evade, 
+#players .status-riposte {
+    background-color: darkblue;
 }
 
 .avatar-icon {
@@ -200,6 +260,54 @@ body {
     display: block;
 }
 
+/********** Game Over Box ***********/
+
+#gameover {
+    background-image: url("../images/bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 320px;
+    min-width: 320px;
+    border: 0;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#gameover h2 {
+    font-size: 3.8em;
+    color: rgba(255,255,255,0.65);
+    margin: 0.5rem 0px 0px 0px;
+    text-shadow: 0px 0px 10px rgba(0,0,0,0.75);
+}
+
+#gameover div {
+    color: rgb(0, 0, 139, 0.9);
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    font-size: 1.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+
+#gameover::backdrop {
+    background-color: rgba(0,0,0, 0.8);
+}
+
+#gameover button{
+    color: rgb(4, 0, 224);
+    font-weight: 700;
+    width: 100px;
+    margin: 0.3rem 0;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+}
+
 /********** NEW PLAYERS FORM STYLING ***********/
 
 #new-players-form {
@@ -227,13 +335,19 @@ body {
     margin: 0.5rem;
     padding: 1.5rem;
     background-color: lightgray;
-    min-width: 400px;
+    min-width: 250px;
+}
+
+.new-player-box input[type="text"] {
+    padding: 0.4rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0, 0.5);
 }
 
 .new-player-box label:not(.input-box-label) {
     display: block;
     font-weight: 700;
-    margin-top: 0.5rem;
+    margin-top: 1rem;
 }
 
 .new-player-box h2 {
@@ -309,38 +423,3 @@ body {
 }
 
 
-#gameover{
-    background-image: url("../images/bg.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    min-height: 300px;
-    min-width: 300px;
-    color: #00008B;
-    border: solid 2px black;
-    font-weight: bold;
-    -webkit-text-stroke-width: 0.6px;
-    -webkit-text-stroke-color: rgb(255, 255, 255);
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    font-size: 1.3rem;
-
-}
-
-#gameover h2 {
-    font-size: 2.5em;
-    color: rgba(255,255,255,0.65);
-    margin-bottom: 0;
-    -webkit-text-stroke-color: #00008B;
-}
-
-#gameover button{
-    color: rgb(4, 0, 224);
-    -webkit-text-stroke-width: 0.5px;
-    -webkit-text-stroke-color:  rgb(4, 0, 224);
-    width: 100px;
-    margin: 10px 0;
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 5px;
-}

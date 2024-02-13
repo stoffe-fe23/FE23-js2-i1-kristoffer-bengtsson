@@ -1,7 +1,11 @@
 /*
+    Inlämningsuppgift 1 - FE23 Javascript 2
+    Kristoffer Bengtsson
+    Yasir Kakar
+
     Class: FighterType
-    Defines a class or type of fighter (i.e. Warrior, Mage etc)
-    Abstract, do not create objects of this class, use one of the subclasses instead. 
+    Definition of a type of fighter (i.e. Warrior, Mage, Rogue etc)
+    Abstract, do not create objects of this class, use one of its subclasses in FighterTypes instead. 
 */
 import AttackSkill from "./AttackSkill.js";
 
@@ -14,9 +18,6 @@ export default class FighterType {
     #classIcon;
 
 
-    ///////////////////////////////////////////////////////////////////////////////
-    // Create fightertype with the specified name and health pool size
-    // Fighter type skills are set in the sub-classes. 
     constructor(fighterName, maxHealth, armorClass, style, icon) {
         this.name = fighterName;
         this.#maxHealth = maxHealth;
@@ -72,7 +73,7 @@ export default class FighterType {
     ///////////////////////////////////////////////////////////////////////////////
     addSkill(attackType) {
         if ((typeof attackType !== "object") || !(attackType instanceof AttackSkill)) {
-            throw new Error(`Error attempting to add invalid attack to ${this.#fighterName}!`);
+            throw new Error(`Error attempting to add invalid skill to ${this.#fighterName}!`);
         }
 
         if (!this.#attackTypes.includes(attackType)) {
@@ -82,7 +83,7 @@ export default class FighterType {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Return the attack skill with the specified name
+    // Return the attack or skill with the specified name
     getAttackSkill(skillName) {
         for (const skill of this.#attackTypes) {
             if (skill.name == skillName) {
@@ -94,13 +95,12 @@ export default class FighterType {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Return a list of attacks available to use.
+    // Return a list of skills available to use.
     getAvailableSkills() {
         if (this.#attackTypes.length <= 0) {
             throw new Error(`The ${this.#fighterName} does not have any skills assigned!`);
         }
 
-        // return this.#attackTypes.filter(({ charges }) => charges > 0).map((skill) => { return { name: skill.name, uses: skill.charges } });
         return this.#attackTypes.filter(({ uses }) => ((uses > 0) || (uses === -1)));
     }
 }

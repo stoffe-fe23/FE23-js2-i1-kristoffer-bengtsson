@@ -1,10 +1,16 @@
-import gameInterface from "./GameInterface.js";
 /*
+    Inlämningsuppgift 1 - FE23 Javascript 2
+    Kristoffer Bengtsson
+    Yasir Kakar
+
     Class: AttackSkill
-    Defines a type of skill/attack a player can make (i.e. Fireball, Kick, Heal etc)
+    Defines a type of skill or attack move a player can use (i.e. Firebolt, Stab, Heal etc)
 */
+import gameInterface from "./GameInterface.js";
+
 
 export default class AttackSkill {
+    // Static lookup table for checking valid status effect types a skill may apply. 
     static statusEffects = ['none', 'heal', 'cure', 'evade', 'burn', 'stun', 'riposte'];
     #skillName;
     #skillDamageMin;
@@ -34,7 +40,8 @@ export default class AttackSkill {
             this.#skillStatusDuration = statusEffectDuration ?? 0;
         }
 
-        if ((hitChance > 1) && (hitChance <= 20)) {
+        // Attack bonus of this skill
+        if ((hitChance >= 0) && (hitChance <= 20)) {
             this.#skillHitChance = hitChance;
         }
 
@@ -68,7 +75,7 @@ export default class AttackSkill {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Return the target of the skill, either: "self" or "enemy"
+    // Return the target type of the skill, either: "self" or "enemy"
     get target() {
         return this.#skillTarget;
     }
@@ -82,7 +89,7 @@ export default class AttackSkill {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Return if this skill inflicts any kind of status effect.
+    // Return its type if this skill inflicts any kind of status effect.
     get status() {
         return this.#skillStatus;
     }
@@ -96,14 +103,14 @@ export default class AttackSkill {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Return the hit chance modifier of this skill (1-20)
+    // Return the attack bonus modifier of this skill (0-20)
     get hitChance() {
         return this.#skillHitChance;
     }
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Return the icon for this skill
+    // Return the filename of the icon for this skill
     get icon() {
         return this.#skillIcon;
     }
@@ -117,7 +124,7 @@ export default class AttackSkill {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Use the skill, decreasing number of available uses and returning rolled damage
+    // Use the skill, decreasing number of available uses and returning rolled damage/healing
     use(opponent, skillUser) {
         if ((this.#skillUses != -1) && (this.#skillUses <= 0)) {
             throw new Error(`You cannot use ${this.#skillName} any more times during this match.`);
@@ -150,11 +157,10 @@ export default class AttackSkill {
         else {
             const attackRoll = this.#rollDice(20, this.hitChance);
             const defenseRoll = this.#rollDice(20, opponent.armor);
-            console.log("Attack roll: ", attackRoll, "vs", defenseRoll);
 
             if (attackRoll >= defenseRoll) {
                 opponent.takeDamage(skillRoll);
-                gameInterface.showMessage(`${skillUser.name} attacked ${opponent.name} with ${this.name} for ${skillRoll} damage.`);
+                gameInterface.showMessage(`${skillUser.name} attacked ${opponent.name} with ${this.name} for ${skillRoll} damage. (${attackRoll} vs. ${defenseRoll})`);
 
                 // Apply status effect
                 if ((this.status == "riposte") && (this.statusDuration > 0)) {
@@ -168,10 +174,9 @@ export default class AttackSkill {
                     skillUser.takeDamage(15);
                     gameInterface.showMessage(`${opponent.name} riposted ${skillUser.name}'s attack dealing 15 damage in return.`);
                 }
-
             }
             else {
-                gameInterface.showMessage(`${skillUser.name} attacked ${opponent.name} with ${this.name} but missed!`);
+                gameInterface.showMessage(`${skillUser.name} attacked ${opponent.name} with ${this.name} but missed! (${attackRoll} vs. ${defenseRoll})`);
                 skillRoll = null;
             }
         }

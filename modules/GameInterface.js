@@ -1,4 +1,13 @@
 
+/*
+    Inlämningsuppgift 1 - FE23 Javascript 2
+    Kristoffer Bengtsson
+    Yasir Kakar
+
+    Class: GameInterface
+    Class for managing the user interface and starting the game. 
+    Accessed through the global gameInterface object created here. 
+*/
 import { createHTMLElement } from './utilities.js';
 import Game from "./Game.js";
 import Player from "./Player.js";
@@ -19,19 +28,14 @@ class GameInterface {
     #playerIndicator;
 
 
-    ///////////////////////////////////////////////////////////////////////////////
-    // Create game interface object and connect it to a HTML element on the page
-    // where the game will be shown. 
     constructor(parentElement) {
         this.#parentElement = parentElement;
     }
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Build the game interface inside the specified element: 
-    // one box for each player and boxes for messages and errors
+    // Build the main game interface and start the match.
     startGame(player1, player2) {
-
         this.#parentElement.innerHTML = '';
         this.#playerElements = createHTMLElement('div', '', this.#parentElement, 'game-players', { id: "players" });
         this.#errorsElement = createHTMLElement('div', '', this.#parentElement, 'game-errors', { id: "errors" });
@@ -51,7 +55,7 @@ class GameInterface {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Create fighter type class depending on string representation value.
+    // Create fighter type class depending on type value string from form.
     #createPlayerType(typeName) {
         switch (typeName) {
             case "warrior": return new Warrior();
@@ -62,9 +66,8 @@ class GameInterface {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Set which player should be marked as the current player on the UI
+    // Set which player should be marked as the current/active player on the UI
     setCurrentPlayer(playerNumber) {
-
         this.#playerIndicator.innerHTML = " ";
         if (playerNumber == 1) {
             createHTMLElement('img', 'Arrow', this.#playerIndicator, "player-indicator-archer", { src: "./images/archerright.png" })
@@ -80,7 +83,7 @@ class GameInterface {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Set the color of the player's avatar box
+    // Set the color of the player's avatar box (css class)
     setPlayerColor(playerNumber, playerStyle) {
         if (playerNumber == 1) {
             this.#playerOne.classList.add(playerStyle);
@@ -99,66 +102,63 @@ class GameInterface {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Show a message to the player (blue box)
+    // Show a message to the player (combat log)
     showMessage(messageText) {
         this.#messagesElement.prepend(createHTMLElement('div', messageText, null, 'game-message', null, true));
     }
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Show an error message to the player (red box)
+    // Show an error message to the player (red error box)
     showError(errorText) {
-        this.#errorsElement.prepend(createHTMLElement('div', errorText, null, 'game-error', null, true));
+        const errorMsg = createHTMLElement('div', errorText, null, 'game-error', null, true);
+        this.#errorsElement.prepend(errorMsg);
+        this.#errorsElement.classList.add("show");
+
+        // Hide error after 10 seconds
+        setTimeout(() => {
+            errorMsg.remove();
+            if (this.#errorsElement.children.length <= 0) {
+                this.#errorsElement.classList.remove("show");
+            }
+        }, 10000);
     }
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // TODO: Visually present the current player's action
+    // Visually indicate the player's action between the avatar boxes
     showPlayerMove(player, opponent, skillName, skillResult) {
-        // Disable buttons for both players while the move is displayed... 
+        // Disable buttons for both players while the action is displayed... 
         document.querySelectorAll(".skill-button-wrapper").forEach((buttonPanel) => {
             buttonPanel.disabled = true;
         });
 
+        // Skill icon
+        createHTMLElement(`img`, skillName, this.#playerIndicator, "feedback-skillIcon", { src: `./images/` + skillResult.skill.icon });
 
-        createHTMLElement(`img`, "", this.#playerIndicator, "feedback-skillIcon", { src: `./images/` + skillResult.skill.icon })
-
-        createHTMLElement(`p`, `${skillResult.roll == null ? "miss" : skillResult.roll}`, this.#playerIndicator, "feedback-damage")
-
-        if (skillResult.roll !== null) {
-            createHTMLElement('div', StatusEffect.getEffectName(skillResult.skill.status), this.#playerIndicator, 'feedback-statuseffect');
+        // Damage or healing amount
+        if (skillResult.roll !== 0) {
+            createHTMLElement(`p`, `${skillResult.roll !== null ? skillResult.roll : "Miss!"}`, this.#playerIndicator, (skillResult.skill.target == "self" ? "feedback-healing" : "feedback-damage"));
         }
 
+        // Status effect, if any, if the skill hits
+        if ((skillResult.roll !== null) && (skillResult.skill.status !== "none")) {
+            createHTMLElement('div', StatusEffect.getEffectName(skillResult.skill.status), this.#playerIndicator, ['feedback-statuseffect', `status-${skillResult.skill.status}`]);
+        }
 
-
-        // TODO: Visualize player move here?
-        // Useful info: 
-        //  - player is the Player object of the player making the move
-        //  - opponent is the Player object of the other player (i.e. the target if not a self-target skill)
-        //  - skillName contains the name of the skill used
-        //  - skillResult is an object with two properties, "roll" and "skill":
-        // -  skillResult.skill is the AttackSkill object of the skill that was used.
-        //  - if skillResult.roll is null then the attack missed, otherwise the damage dealt, or health healed
-        //  - if skillResult.skill.status is not "none" then the skill applies that status effect if his
-        //  - if skillResult.skill.statusDuration is not 0 then it is the duration of the status effect, in rounds
-        //  - skillResult.skill.icon is the icon of the used skill
-        console.log("DEBUG:", skillName, skillResult, opponent, player);
-
-        setTimeout(() => {
-            // TODO: Do this delayed when the presentation is done to pass control to the next player
-            this.#game.nextPlayerTurn();
-        }, 2000);
+        // Pause briefly while displaying the action before continuing next player turn.
+        setTimeout(() => { this.#game.nextPlayerTurn(); }, 2000);
     }
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // TODO: Show some kind of screen when the game is over, declaring the winner. 
+    // Show the game over box, declaring the winner. 
     showGameOverScreen(winnerName) {
         const gameoverBox = createHTMLElement('dialog', '', document.body, 'game-over', { id: "gameover" });
-        createHTMLElement('h2', 'Game Over', gameoverBox, 'game-over-title', { id: "gameover-title" });
+        createHTMLElement('h2', 'Game Over!', gameoverBox, 'game-over-title', { id: "gameover-title" });
         createHTMLElement('div', `${winnerName} is victorious!`, gameoverBox, 'game-over-text', { id: "gameover-text" });
 
-        // New game button
+        // Button: New game
         const restartButton = createHTMLElement('button', 'Play again!', gameoverBox, 'game-over-button', { id: "restart-button" });
         restartButton.addEventListener("click", (event) => {
             gameoverBox.close();
@@ -166,7 +166,7 @@ class GameInterface {
             this.newGame();
         });
 
-        // Dismiss popup button
+        // Button: Dismiss game over box
         const endButton = createHTMLElement('button', 'OK', gameoverBox, 'game-over-button', { id: "gameover-button" });
         endButton.addEventListener("click", (event) => {
             gameoverBox.close();
@@ -184,22 +184,19 @@ class GameInterface {
 
         const newPlayersForm = createHTMLElement('form', '', this.#parentElement, 'new-players-form', { id: 'new-players-form' });
         const newPlayersWrapper = createHTMLElement('div', '', newPlayersForm, 'new-players-wrapper', { id: 'new-players-wrapper' });
-
-        // Player 1
-        this.#createNewPlayerBox(newPlayersWrapper, 'one');
-
-        // Player 2
-        this.#createNewPlayerBox(newPlayersWrapper, 'two');
-
         const buttonsWrapper = createHTMLElement('div', '', newPlayersForm, 'start-game-button-wrapper');
         createHTMLElement('button', 'Start game!', buttonsWrapper, 'start-game-button', { id: 'start-game-button' });
+
+        // Build boxes for both players
+        this.#createNewPlayerBox(newPlayersWrapper, 'one');
+        this.#createNewPlayerBox(newPlayersWrapper, 'two');
 
         newPlayersForm.addEventListener("submit", this.#onNewPlayersSubmit.bind(this));
     }
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Form box for creating a new player
+    // Form component for creating a new player
     #createNewPlayerBox(parentElement, playerNum) {
         const newPlayerBox = createHTMLElement('div', '', parentElement, 'new-player-box', { id: 'new-player-' + playerNum });
         createHTMLElement('h2', 'Player ' + (playerNum == "one" ? "1" : "2"), newPlayerBox, 'new-player-title');
@@ -213,8 +210,8 @@ class GameInterface {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Form event handler: Start a new game once the players have chosen their name 
-    // and fighter-type.
+    // CharGen form submit handler: Start a new game when the players have chosen 
+    // their name and fighter type.
     #onNewPlayersSubmit(event) {
         event.preventDefault();
 
@@ -228,12 +225,12 @@ class GameInterface {
             type: document.querySelector(`input[name="new-player-two-class"]:checked`).value
         };
 
-        gameInterface.startGame(player1, player2);
+        this.startGame(player1, player2);
     }
 }
 
 
-// Create gameInterface global object for use elsewhere. 
+// Create gameInterface global object for managing the game. 
 const gameInterface = new GameInterface(document.querySelector("#game"));
 
 export default gameInterface;
