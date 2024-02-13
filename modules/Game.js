@@ -146,7 +146,8 @@ export default class Game {
             // If the skill has limited uses, show remaining use as well
             let buttonLabel = (skill.uses === -1 ? skill.name : `${skill.name} (${skill.uses})`);
             buttonLabel = `<img src="./images/${skill.icon}">` + buttonLabel;
-            createHTMLElement('button', buttonLabel, buttonWrapper, 'player-skill', { id: buttonId, skillname: skill.name, title: skill.description }, true);
+            createHTMLElement('button', buttonLabel, buttonWrapper, 'player-skill', { id: buttonId, skillname: skill.name }, true);
+            createHTMLElement('div', skill.description, buttonWrapper, 'player-skill-tooltip');
         }
     }
 }
