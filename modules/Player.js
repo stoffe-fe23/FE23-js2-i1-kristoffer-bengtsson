@@ -179,7 +179,9 @@ export default class Player {
 
             if (status.duration > 0) {
                 status.turnProc();
-                updatedStatusList.push(status);
+                if (status.duration > 0) {
+                    updatedStatusList.push(status);
+                }
             }
             else {
                 status.expireMessage();
