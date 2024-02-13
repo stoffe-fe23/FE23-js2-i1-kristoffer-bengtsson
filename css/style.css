@@ -307,3 +307,40 @@ body {
 .fighterclass-rogue .player-skill {
     color: darkgreen;
 }
+
+
+#gameover{
+    background-image: url("../images/bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 300px;
+    min-width: 300px;
+    color: #00008B;
+    border: solid 2px black;
+    font-weight: bold;
+    -webkit-text-stroke-width: 0.6px;
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-size: 1.3rem;
+
+}
+
+#gameover h2 {
+    font-size: 2.5em;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 0;
+    -webkit-text-stroke-color: #00008B;
+}
+
+#gameover button{
+    color: rgb(4, 0, 224);
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color:  rgb(4, 0, 224);
+    width: 100px;
+    margin: 10px 0;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+}
