@@ -130,8 +130,10 @@ class GameInterface {
         //  - skillResult.skill.icon is the icon of the used skill
         console.log("DEBUG:", skillName, skillResult, opponent, player);
 
-        // TODO: Do this (delayed?) when the presentation is done to pass control to the next player
-        this.#game.nextPlayerTurn();
+        setTimeout(() => {
+            // TODO: Do this delayed when the presentation is done to pass control to the next player
+            this.#game.nextPlayerTurn();
+        }, 2000);
     }
 
 
