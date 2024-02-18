@@ -52,6 +52,8 @@ export default class Game {
     nextPlayerTurn() {
         // End game if anyone has gotten KO'd
         if (this.checkForGameOver()) {
+            this.#buildPlayerAvatar(this.#playerOne);
+            this.#buildPlayerAvatar(this.#playerTwo);
             return;
         }
 

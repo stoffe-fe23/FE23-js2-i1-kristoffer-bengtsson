@@ -220,7 +220,7 @@ export default class Player {
         const skillObj = this.type.getAttackSkill(attackSkill);
 
         if ((skillObj === undefined) || (skillObj === null)) {
-            throw new Error(`The skill ${attackSkill} is not known to a ${this.type}!`);
+            throw new Error(`The skill ${attackSkill} is not known to a ${this.type.name}!`);
         }
 
         const skillDmg = skillObj.use(opponentPlayer, this);
