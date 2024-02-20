@@ -94,7 +94,7 @@ export default class StatusEffect {
                 gameInterface.showMessage(`${this.#effectTarget.name} is regenerating health for ${this.#effectDuration} rounds!`);
                 break;
             case "evade":
-                gameInterface.showMessage(`${this.#effectTarget.name} is evading attacks (+5 defense) for ${this.#effectDuration} rounds!`);
+                gameInterface.showMessage(`${this.#effectTarget.name} is evading attacks (+15 defense) for ${this.#effectDuration} rounds!`);
                 break;
             case "burn":
                 gameInterface.showMessage(`${this.#effectTarget.name} is burning for ${this.#effectDuration} rounds!`);
